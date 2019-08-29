@@ -12,8 +12,10 @@ html {
   height: 100%;
 }
 body {
-  height: 100%;
-  background: linear-gradient(45deg, rgba(32, 0, 32, 1), rgb(65, 5, 65));
+  min-height: 100%;
+  background: linear-gradient(rgba(32, 0, 32, 1), rgba(0, 0, 0, 1));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 /* containers */
 .library-container {
@@ -28,6 +30,10 @@ body {
 }
 /* header */
 .library-header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 100px;
   grid-area: header;
   display: flex;
   justify-content: space-between;
@@ -128,5 +134,14 @@ body {
 
 /* main */
 .library-main {
+  margin: 40px 40px;
   grid-area: main;
+  display: grid;
+  grid-template-columns: 300px;
+}
+
+.book-container,
+.add-button {
+  width: 300px;
+  height: 400px;
 }
