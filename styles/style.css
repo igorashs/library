@@ -6,4 +6,48 @@
 html,
 body {
   font-family: poppins-regular;
+  color: white;
+}
+html {
+  height: 100%;
+}
+body {
+  background: linear-gradient(45deg, rgba(32, 0, 32, 1), rgb(65, 5, 65));
+}
+/* containers */
+.library-container {
+  width: 100%;
+  display: grid;
+  grid-template-areas:
+    '. header header .'
+    '. main panel .';
+  grid-template-rows: 100px 1fr;
+  grid-template-columns: 20px 1fr 300px 20px;
+  grid-row-gap: 40px;
+}
+
+.library-header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.library-main {
+  grid-area: main;
+}
+
+.library-panel {
+  grid-area: panel;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+/* user */
+.user {
+  width: 300px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
