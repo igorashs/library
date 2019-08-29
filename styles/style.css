@@ -2,3 +2,8 @@
   font-family: poppins-regular;
   src: url(../fonts/Poppins-Regular.ttf);
 }
+
+html,
+body {
+  font-family: poppins-regular;
+}
