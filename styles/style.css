@@ -12,18 +12,19 @@ html {
   height: 100%;
 }
 body {
+  height: 100%;
   background: linear-gradient(45deg, rgba(32, 0, 32, 1), rgb(65, 5, 65));
 }
 /* containers */
 .library-container {
   width: 100%;
+  height: 100%;
   display: grid;
   grid-template-areas:
     ' header header '
     'main panel';
   grid-template-rows: 100px 1fr;
   grid-template-columns: 1fr 360px;
-  grid-row-gap: 40px;
 }
 /* header */
 .library-header {
@@ -64,16 +65,68 @@ body {
   background-color: rgb(214, 105, 66);
 }
 
+/* panel */
+.library-panel {
+  padding-top: 40px;
+  grid-area: panel;
+  width: 360px;
+  background-color: rgba(66, 66, 66, 0.8);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 100px;
+}
+.library-panel .element {
+  width: 80%;
+  border-top: 2px solid rgba(0, 0, 0, 0.4);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+}
+.library-panel .element .title {
+  font-size: 32px;
+  text-align: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+.library-panel .element .data {
+  padding: 0 0.5rem;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+}
+.library-panel .element .data .info {
+  margin: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.library-panel .element .data .button {
+  align-self: center;
+  border: 0;
+  border-radius: 5px;
+  color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(175, 58, 58, 0.5);
+  width: 80%;
+  height: 40px;
+}
+.library-panel .element .data .button:hover,
+.library-panel .element .data .button:focus {
+  color: rgb(255, 255, 255);
+  background-color: rgb(175, 58, 58);
+}
+#creator {
+  width: 60%;
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  border-top: 1px solid rgba(42, 0, 42, 0.4);
+  border-bottom: 1px solid rgba(42, 0, 42, 0.4);
+}
+
 /* main */
 .library-main {
   grid-area: main;
-}
-
-/* panel */
-.library-panel {
-  grid-area: panel;
-  width: 360px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 }
