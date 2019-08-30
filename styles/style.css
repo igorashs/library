@@ -143,7 +143,7 @@ body {
   grid-row-gap: 20px;
   grid-auto-flow: row;
 }
-/* element */
+/* elements */
 .book-container,
 .add-button {
   width: 300px;
@@ -154,11 +154,14 @@ body {
   box-shadow: 0 0 0 4px rgba(60, 59, 60, 0.6);
   border-radius: 10px;
 }
+/* book */
+.book-container:hover {
+  cursor: default;
+}
 .book-container {
   grid-template-rows: 1fr 5fr 1.25fr 1fr;
   overflow: hidden;
 }
-/* book */
 .book-container .options {
   box-sizing: border-box;
   display: flex;
@@ -246,6 +249,17 @@ body {
 }
 .book-container .pages-count h2 {
   width: 50%;
+}
+/* add button */
+.add-button .plus {
+  justify-self: center;
+  align-self: center;
+  font-size: 260px;
+}
+.add-button:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+  background-color: rgba(25, 88, 56, 0.5);
 }
 
 /* responsive  */
