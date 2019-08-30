@@ -262,7 +262,8 @@ body {
   background-color: rgba(25, 88, 56, 0.5);
 }
 /* modal add */
-.modal-add-wrapper {
+.modal-add-wrapper,
+.modal-edit-wrapper {
   z-index: 1;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.5);
@@ -274,10 +275,10 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  /* is flex */
-  display: none;
+  display: flex;
 }
-.modal-add {
+.modal-add,
+.modal-edit {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 6fr 1fr;
@@ -287,7 +288,8 @@ body {
   overflow: hidden;
   background-color: rgba(64, 64, 64, 0.8);
 }
-.modal-add .modal-title {
+.modal-add .modal-title,
+.modal-edit .modal-title {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -296,10 +298,12 @@ body {
   background-color: darkgreen;
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
 }
-.modal-add .options {
+.modal-add .options,
+.modal-edit .options {
   display: flex;
 }
-.modal-add .options .button {
+.modal-add .options .button,
+.modal-edit .options .button {
   box-shadow: 0 -4px 0 rgba(0, 0, 0, 0.3);
   font-size: 24px;
   font-weight: bold;
@@ -307,21 +311,24 @@ body {
   width: 50%;
   border: 0;
 }
-.modal-add .content {
+.modal-add .content,
+.modal-edit .content {
   display: grid;
   padding: 20px 0;
   grid-template-columns: 1fr;
   justify-content: center;
   align-content: space-evenly;
 }
-.modal-add .content .element {
+.modal-add .content .element,
+.modal-edit .content .element {
   position: relative;
   width: 80%;
   justify-self: center;
   display: flex;
   flex-direction: column;
 }
-.modal-add .content .element .input {
+.modal-add .content .element .input,
+.modal-edit .content .element .input {
   border: 0;
   color: #fff;
   background: transparent;
@@ -330,7 +337,8 @@ body {
   padding: 0 0.5rem;
   height: 40px;
 }
-.modal-add .content .element .title {
+.modal-add .content .element .title,
+.modal-edit .content .element .title {
   color: rgb(102, 102, 102);
   font-size: 20px;
   padding: 0.65rem 0.5rem;
@@ -339,18 +347,23 @@ body {
   transition: 1s;
 }
 .modal-add .content .element .input:focus ~ .title,
-.modal-add .content .element .input:valid ~ .title {
+.modal-add .content .element .input:valid ~ .title,
+.modal-edit .content .element .input:focus ~ .title,
+.modal-edit .content .element .input:valid ~ .title {
   transform: translateY(-2.2rem) scale(0.9);
   color: rgb(86, 213, 255);
 }
-.modal-add .content .element .input.number {
+.modal-add .content .element .input.number,
+.modal-edit .content .element .input.number {
   width: 50%;
 }
 /* checkbox */
-.modal-add .content .element .completed-check {
+.modal-add .content .element .completed-check,
+.modal-edit .content .element .completed-check {
   display: flex;
 }
-.modal-add .content .element .input.check {
+.modal-add .content .element .input.check,
+.modal-edit .content .element .input.check {
   position: relative;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -364,7 +377,8 @@ body {
   height: 40px;
   border-radius: 20px;
 }
-.modal-add .content .element .input.check::before {
+.modal-add .content .element .input.check::before,
+.modal-edit .content .element .input.check::before {
   position: absolute;
   content: '';
   width: 40px;
@@ -375,19 +389,26 @@ body {
   background-color: rgb(56, 34, 34);
   transition-duration: 0.5s;
 }
-.modal-add .content .element .input.check:hover::before {
+.modal-add .content .element .input.check:hover::before,
+.modal-edit .content .element .input.check:hover::before {
   transform: scale(1.1);
   box-shadow: 0 0 1px 2px rgb(156, 132, 132);
   background-color: rgb(126, 30, 30);
 }
-.modal-add .content .element .input.check:checked::before {
+.modal-add .content .element .input.check:checked::before,
+.modal-edit .content .element .input.check:checked::before {
   box-shadow: 0 0 1px 2px rgb(110, 125, 175);
   background-color: rgb(7, 104, 136);
   left: 40px;
 }
-.modal-add .content .element .input.check:checked {
+.modal-add .content .element .input.check:checked,
+.modal-edit .content .element .input.check:checked {
   background-color: rgba(255, 255, 255, 0.6);
   box-shadow: inset 0 0 5px 1px rgb(83, 83, 83);
+}
+/* modal display (is flex: default) */
+.display-none {
+  display: none;
 }
 /* responsive  */
 @media only screen and (max-width: 1720px) {
