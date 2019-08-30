@@ -143,7 +143,7 @@ body {
   grid-row-gap: 20px;
   grid-auto-flow: row;
 }
-
+/* element */
 .book-container,
 .add-button {
   width: 300px;
@@ -151,8 +151,103 @@ body {
   display: grid;
   justify-items: center;
   background-color: rgba(25, 88, 56, 0.3);
+  box-shadow: 0 0 0 4px rgba(60, 59, 60, 0.6);
   border-radius: 10px;
 }
+.book-container {
+  grid-template-rows: 1fr 5fr 1.25fr 1fr;
+  overflow: hidden;
+}
+/* book */
+.book-container .options {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+}
+.book-container .options .button {
+  box-sizing: border-box;
+  border: 0;
+  font-size: 20px;
+  color: #fff;
+  width: 50%;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+}
+.button.red-bg {
+  background-color: rgba(175, 58, 58, 0.5);
+}
+.button.green-bg {
+  background-color: rgba(59, 176, 63, 0.5);
+}
+.button.red-bg:hover {
+  background-color: rgba(175, 58, 58, 0.8);
+}
+.button.green-bg:hover {
+  background-color: rgba(59, 176, 63, 0.8);
+}
+.book-container .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 80%;
+  margin: 20px;
+}
+.book-container .content .title {
+  font-size: 30px;
+  text-align: center;
+}
+.book-container .content .author {
+  font-size: 16px;
+  text-align: right;
+  font-style: italic;
+}
+.book-container .pages-controller {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  box-shadow: 0 -4px 0 rgba(0, 0, 0, 0.3);
+}
+.book-container .pages-controller .button {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  border: 0;
+  width: 100%;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+}
+.book-container .pages-controller .button.minus-gb {
+  background-color: rgba(175, 58, 58, 0.8);
+}
+.book-container .pages-controller .button.minus-gb:hover {
+  background-color: rgba(175, 58, 58, 1);
+}
+.book-container .pages-controller .button.plus-gb {
+  background-color: rgba(59, 176, 63, 0.8);
+}
+.book-container .pages-controller .button.plus-gb:hover {
+  background-color: rgba(59, 176, 63, 1);
+}
+.book-container .pages-controller .button.check-gb {
+  background-color: rgba(63, 59, 176, 0.8);
+}
+.book-container .pages-controller .button.check-gb:hover {
+  background-color: rgba(63, 59, 176, 1);
+}
+.book-container .pages-count {
+  margin-top: 1px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  display: flex;
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: rgb(64, 64, 64);
+}
+.book-container .pages-count h2 {
+  width: 50%;
+}
+
 /* responsive  */
 @media only screen and (max-width: 1720px) {
   .library-main {
