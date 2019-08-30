@@ -67,31 +67,48 @@
         <h2 id="creator">Made by Igorash</h2>
       </div>
     </div>
-
-    <div class="modal-add">
-      <h2 class="title">Add New Book</h2>
-      <div class="element">
-        <label for="book-title" class="title">Title</label>
-        <input type="text" class="input" id="book-title" />
-      </div>
-      <div class="element">
-        <label for="book-author" class="title">Author</label>
-        <input type="text" class="input" id="book-author" />
-      </div>
-      <div class="element">
-        <label for="book-total-pages" class="title">Total pages</label>
-        <input type="text" class="input" id="book-total-pages" />
-      </div>
-      <div class="element">
-        <label for="book-completed-pages" class="title">Completed pages</label>
-        <div>
-          <input type="text" class="input" id="book-completed-pages" />
-          <button class="button">&#x2713;</button>
+    <div class="modal-add-wrapper">
+      <div class="modal-add">
+        <div class="modal-title">
+          <h2>Add New Book</h2>
         </div>
-      </div>
-      <div class="options">
-        <button class="button red-bg">Cancel</button>
-        <button class="button green-bg">Add</button>
+        <div class="content">
+          <div class="element">
+            <input type="text" class="input" id="book-title" required />
+            <label for="book-title" class="title">Title</label>
+          </div>
+          <div class="element">
+            <input type="text" class="input" id="book-author" required />
+            <label for="book-author" class="title">Author</label>
+          </div>
+          <div class="element">
+            <input
+              type="text"
+              class="input number"
+              id="book-total-pages"
+              required
+            />
+            <label for="book-total-pages" class="title">Total pages</label>
+          </div>
+          <div class="element">
+            <div class="completed-check">
+              <input
+                type="text"
+                class="input number"
+                id="book-completed-pages"
+                required
+              />
+              <label for="book-completed-pages" class="title"
+                >Completed pages</label
+              >
+              <input type="checkbox" name="" class="input check" />
+            </div>
+          </div>
+        </div>
+        <div class="options">
+          <button class="button red-bg">Cancel</button>
+          <button class="button green-bg">Add</button>
+        </div>
       </div>
     </div>
 
