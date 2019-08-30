@@ -261,7 +261,134 @@ body {
   cursor: pointer;
   background-color: rgba(25, 88, 56, 0.5);
 }
-
+/* modal add */
+.modal-add-wrapper {
+  z-index: 1;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* is flex */
+  display: none;
+}
+.modal-add {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 6fr 1fr;
+  width: 600px;
+  height: 600px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: rgba(64, 64, 64, 0.8);
+}
+.modal-add .modal-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
+  background-color: darkgreen;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+}
+.modal-add .options {
+  display: flex;
+}
+.modal-add .options .button {
+  box-shadow: 0 -4px 0 rgba(0, 0, 0, 0.3);
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  width: 50%;
+  border: 0;
+}
+.modal-add .content {
+  display: grid;
+  padding: 20px 0;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  align-content: space-evenly;
+}
+.modal-add .content .element {
+  position: relative;
+  width: 80%;
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+}
+.modal-add .content .element .input {
+  border: 0;
+  color: #fff;
+  background: transparent;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+  padding: 0 0.5rem;
+  height: 40px;
+}
+.modal-add .content .element .title {
+  color: rgb(102, 102, 102);
+  font-size: 20px;
+  padding: 0.65rem 0.5rem;
+  position: absolute;
+  bottom: 0;
+  transition: 1s;
+}
+.modal-add .content .element .input:focus ~ .title,
+.modal-add .content .element .input:valid ~ .title {
+  transform: translateY(-2.2rem) scale(0.9);
+  color: rgb(86, 213, 255);
+}
+.modal-add .content .element .input.number {
+  width: 50%;
+}
+/* checkbox */
+.modal-add .content .element .completed-check {
+  display: flex;
+}
+.modal-add .content .element .input.check {
+  position: relative;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin-left: 10px;
+  padding: 0;
+  border: 0;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 0 5px 1px rgb(62, 68, 68);
+  width: 80px;
+  height: 40px;
+  border-radius: 20px;
+}
+.modal-add .content .element .input.check::before {
+  position: absolute;
+  content: '';
+  width: 40px;
+  height: 40px;
+  left: 0;
+  border-radius: 20px;
+  box-shadow: 0 0 1px 2px rgb(105, 86, 86);
+  background-color: rgb(56, 34, 34);
+  transition-duration: 0.5s;
+}
+.modal-add .content .element .input.check:hover::before {
+  transform: scale(1.1);
+  box-shadow: 0 0 1px 2px rgb(156, 132, 132);
+  background-color: rgb(126, 30, 30);
+}
+.modal-add .content .element .input.check:checked::before {
+  box-shadow: 0 0 1px 2px rgb(110, 125, 175);
+  background-color: rgb(7, 104, 136);
+  left: 40px;
+}
+.modal-add .content .element .input.check:checked {
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 0 5px 1px rgb(83, 83, 83);
+}
 /* responsive  */
 @media only screen and (max-width: 1720px) {
   .library-main {

@@ -67,6 +67,50 @@
         <h2 id="creator">Made by Igorash</h2>
       </div>
     </div>
+    <div class="modal-add-wrapper">
+      <div class="modal-add">
+        <div class="modal-title">
+          <h2>Add New Book</h2>
+        </div>
+        <div class="content">
+          <div class="element">
+            <input type="text" class="input" id="book-title" required />
+            <label for="book-title" class="title">Title</label>
+          </div>
+          <div class="element">
+            <input type="text" class="input" id="book-author" required />
+            <label for="book-author" class="title">Author</label>
+          </div>
+          <div class="element">
+            <input
+              type="text"
+              class="input number"
+              id="book-total-pages"
+              required
+            />
+            <label for="book-total-pages" class="title">Total pages</label>
+          </div>
+          <div class="element">
+            <div class="completed-check">
+              <input
+                type="text"
+                class="input number"
+                id="book-completed-pages"
+                required
+              />
+              <label for="book-completed-pages" class="title"
+                >Completed pages</label
+              >
+              <input type="checkbox" name="" class="input check" />
+            </div>
+          </div>
+        </div>
+        <div class="options">
+          <button class="button red-bg">Cancel</button>
+          <button class="button green-bg">Add</button>
+        </div>
+      </div>
+    </div>
 
     <script src="app.js"></script>
   </body>
