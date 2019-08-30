@@ -6,4 +6,290 @@
 html,
 body {
   font-family: poppins-regular;
+  color: white;
+}
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  background: linear-gradient(rgba(32, 0, 32, 1), rgba(0, 0, 0, 1));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+/* containers */
+.library-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-areas:
+    ' header header '
+    'main panel';
+  grid-template-rows: 100px 1fr;
+  grid-template-columns: 1fr 360px;
+}
+/* header */
+.library-header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 100px;
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.library-header .title {
+  font-size: 42px;
+  font-weight: bold;
+  margin-left: 20px;
+}
+/* user */
+.library-header .user {
+  margin-right: 20px;
+  width: 360px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.library-header .user .user-name {
+  font-size: 20px;
+  margin-right: 20px;
+}
+.library-header .user .button {
+  border: 0;
+  font-size: 22px;
+  width: 100px;
+  color: #fff;
+  height: 40px;
+  border-radius: 5px;
+  background-color: coral;
+}
+.library-header .user .button:hover,
+.library-header .user .button:focus {
+  background-color: rgb(214, 105, 66);
+}
+
+/* panel */
+.library-panel {
+  padding-top: 40px;
+  grid-area: panel;
+  width: 360px;
+  background-color: rgba(66, 66, 66, 0.8);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 100px;
+}
+.library-panel .element {
+  width: 80%;
+  border-top: 2px solid rgba(0, 0, 0, 0.4);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+}
+.library-panel .element .title {
+  font-size: 32px;
+  text-align: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+.library-panel .element .data {
+  padding: 0 0.5rem;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+}
+.library-panel .element .data .info {
+  margin: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.library-panel .element .data .button {
+  align-self: center;
+  border: 0;
+  border-radius: 5px;
+  color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(175, 58, 58, 0.5);
+  width: 80%;
+  height: 40px;
+}
+.library-panel .element .data .button:hover,
+.library-panel .element .data .button:focus {
+  color: rgb(255, 255, 255);
+  background-color: rgb(175, 58, 58);
+}
+#creator {
+  width: 60%;
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  border-top: 1px solid rgba(42, 0, 42, 0.4);
+  border-bottom: 1px solid rgba(42, 0, 42, 0.4);
+}
+
+/* main */
+.library-main {
+  margin: 40px 40px;
+  grid-area: main;
+  display: grid;
+  justify-content: space-around;
+  justify-items: center;
+  grid-template-columns: repeat(4, 1fr);
+  grid-row-gap: 20px;
+  grid-auto-flow: row;
+}
+/* elements */
+.book-container,
+.add-button {
+  width: 300px;
+  height: 400px;
+  display: grid;
+  justify-items: center;
+  background-color: rgba(25, 88, 56, 0.3);
+  box-shadow: 0 0 0 4px rgba(60, 59, 60, 0.6);
+  border-radius: 10px;
+}
+/* book */
+.book-container:hover {
+  cursor: default;
+}
+.book-container {
+  grid-template-rows: 1fr 5fr 1.25fr 1fr;
+  overflow: hidden;
+}
+.book-container .options {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+}
+.book-container .options .button {
+  box-sizing: border-box;
+  border: 0;
+  font-size: 20px;
+  color: #fff;
+  width: 50%;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+}
+.button.red-bg {
+  background-color: rgba(175, 58, 58, 0.5);
+}
+.button.green-bg {
+  background-color: rgba(59, 176, 63, 0.5);
+}
+.button.red-bg:hover {
+  background-color: rgba(175, 58, 58, 0.8);
+}
+.button.green-bg:hover {
+  background-color: rgba(59, 176, 63, 0.8);
+}
+.book-container .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 80%;
+  margin: 20px;
+}
+.book-container .content .title {
+  font-size: 30px;
+  text-align: center;
+}
+.book-container .content .author {
+  font-size: 16px;
+  text-align: right;
+  font-style: italic;
+}
+.book-container .pages-controller {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  box-shadow: 0 -4px 0 rgba(0, 0, 0, 0.3);
+}
+.book-container .pages-controller .button {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  border: 0;
+  width: 100%;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+}
+.book-container .pages-controller .button.minus-gb {
+  background-color: rgba(175, 58, 58, 0.8);
+}
+.book-container .pages-controller .button.minus-gb:hover {
+  background-color: rgba(175, 58, 58, 1);
+}
+.book-container .pages-controller .button.plus-gb {
+  background-color: rgba(59, 176, 63, 0.8);
+}
+.book-container .pages-controller .button.plus-gb:hover {
+  background-color: rgba(59, 176, 63, 1);
+}
+.book-container .pages-controller .button.check-gb {
+  background-color: rgba(63, 59, 176, 0.8);
+}
+.book-container .pages-controller .button.check-gb:hover {
+  background-color: rgba(63, 59, 176, 1);
+}
+.book-container .pages-count {
+  margin-top: 1px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  display: flex;
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: rgb(64, 64, 64);
+}
+.book-container .pages-count h2 {
+  width: 50%;
+}
+/* add button */
+.add-button .plus {
+  justify-self: center;
+  align-self: center;
+  font-size: 260px;
+}
+.add-button:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+  background-color: rgba(25, 88, 56, 0.5);
+}
+
+/* responsive  */
+@media only screen and (max-width: 1720px) {
+  .library-main {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  .library-main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media only screen and (max-width: 1090px) {
+  .library-main {
+    grid-template-columns: 1fr;
+  }
+}
+/* phones */
+@media only screen and (max-width: 760px) {
+  .library-container {
+    grid-template-areas:
+      ' header header '
+      'main main';
+  }
+  .library-main {
+    grid-template-columns: 1fr;
+  }
+  .library-panel {
+    display: none;
+  }
 }
