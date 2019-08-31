@@ -263,7 +263,8 @@ body {
 }
 /* modal add */
 .modal-add-wrapper,
-.modal-edit-wrapper {
+.modal-edit-wrapper,
+.modal-storage-selection-wrapper {
   z-index: 1;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.5);
@@ -278,7 +279,8 @@ body {
   display: flex;
 }
 .modal-add,
-.modal-edit {
+.modal-edit,
+.modal-storage-selection {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 6fr 1fr;
@@ -289,7 +291,8 @@ body {
   background-color: rgba(64, 64, 64, 0.8);
 }
 .modal-add .modal-title,
-.modal-edit .modal-title {
+.modal-edit .modal-title,
+.modal-storage-selection .modal-title {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -312,7 +315,8 @@ body {
   border: 0;
 }
 .modal-add .content,
-.modal-edit .content {
+.modal-edit .content,
+.modal-storage-selection .content {
   display: grid;
   padding: 20px 0;
   grid-template-columns: 1fr;
@@ -320,7 +324,8 @@ body {
   align-content: space-evenly;
 }
 .modal-add .content .element,
-.modal-edit .content .element {
+.modal-edit .content .element,
+.modal-storage-selection .content .element {
   position: relative;
   width: 80%;
   justify-self: center;
@@ -405,6 +410,32 @@ body {
 .modal-edit .content .element .input.check:checked {
   background-color: rgba(255, 255, 255, 0.6);
   box-shadow: inset 0 0 5px 1px rgb(83, 83, 83);
+}
+/* modal storage */
+.modal-storage-selection-wrapper {
+  background-color: rgba(0, 0, 0, 1);
+}
+.modal-storage-selection {
+  grid-template-rows: 1fr 7fr;
+}
+.modal-storage-selection .content {
+  grid-template-columns: 1fr 1fr;
+}
+.modal-storage-selection .content .element {
+  width: auto;
+}
+.modal-storage-selection .content .element .storage button {
+  width: 200px;
+  height: 180px;
+  color: #fff;
+  font-size: 32px;
+  border: 1px solid rgb(92, 92, 92);
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: 1s;
+}
+.modal-storage-selection .content .element .storage button:hover {
+  transform: scale(1.05);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 /* modal display (is flex: default) */
 .display-none {
