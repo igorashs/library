@@ -99,6 +99,7 @@ function BookContainer(book) {
 
 function ModalFactory(modalType) {
   if (modalType === 'add') {
+    this.modalType = modalType;
     // create wrapper element
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('modal-add-wrapper');
@@ -262,6 +263,24 @@ function ModalFactory(modalType) {
     const wrp = this;
 
     this.buttonCancel.addEventListener('click', () => wrp.off());
+    this.buttonAdd.addEventListener('click', () => {
+      if (wrp.validate()) {
+        let newBook = new Book(
+          wrp.bookTitleInput.value,
+          wrp.bookAuthorInput.value,
+          wrp.bookTotalPagesInput.value,
+          wrp.bookCompletedPagesInput.value,
+          wrp.bookCompleted.checked
+        );
+        let newBookWrapper = new BookContainer(newBook);
+        libraryContainer.insertBefore(
+          newBookWrapper.element,
+          libraryContainer.lastElementChild
+        );
+        wrp.clearInputs();
+        wrp.off();
+      }
+    });
   }
 }
 // create function for modals
@@ -273,6 +292,20 @@ ModalFactory.prototype.off = function() {
 };
 ModalFactory.prototype.insertInBody = function() {
   if (this.wrapper) document.body.appendChild(this.wrapper);
+};
+ModalFactory.prototype.clearInputs = function() {
+  if (this.modalType === 'add') {
+    this.bookTitleInput.value = '';
+    this.bookAuthorInput.value = '';
+    this.bookTotalPagesInput.value = '';
+    this.bookCompletedPagesInput.value = '';
+    this.bookCompleted.checked = false;
+  }
+};
+ModalFactory.prototype.validate = function() {
+  if (this.wrapper && this.modalType === 'add') {
+    return true; // TODO validation here (input)
+  }
 };
 
 // ref main elements
