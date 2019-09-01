@@ -274,8 +274,8 @@ function ModalBookFactory(modalType) {
         let newBook = new Book(
           this.bookTitleInput.value,
           this.bookAuthorInput.value,
-          this.bookTotalPagesInput.value,
-          this.bookCompletedPagesInput.value,
+          +this.bookTotalPagesInput.value,
+          +this.bookCompletedPagesInput.value,
           this.bookCompleted.checked
         );
         let newBookWrapper = new BookContainer(newBook);
@@ -322,6 +322,27 @@ function ModalBookFactory(modalType) {
         );
       }
     });
+    // validation total pages
+    this.bookTotalPagesInput.addEventListener('input', (e) => {
+      if (
+        !!this.bookTotalPagesInput.value &&
+        /^\d+$/g.test(this.bookTotalPagesInput.value) &&
+        +this.bookTotalPagesInput.value > 0 &&
+        +this.bookTotalPagesInput.value <= 9999999
+      ) {
+        this.changeToValid(
+          this.bookTotalPagesInput,
+          this.bookTotalPagesLabel,
+          'Total pages'
+        );
+      } else {
+        this.changeToNotValid(
+          this.bookTotalPagesInput,
+          this.bookTotalPagesLabel,
+          'Total pages number should be more than 0 and less than 9999999'
+        );
+      }
+    });
   } // this is end of if btw
 }
 // create function for modals
@@ -336,12 +357,15 @@ ModalBookFactory.prototype.insertInBody = function() {
 };
 ModalBookFactory.prototype.clearAllInputs = function() {
   if (this.modalType === 'add') {
-    // title
     this.clearInput(this.bookTitleInput, this.bookTitleLabel, 'Title');
     this.clearInput(this.bookAuthorInput, this.bookAuthorLabel, 'Author');
+    this.clearInput(
+      this.bookTotalPagesInput,
+      this.bookTotalPagesLabel,
+      'Total pages'
+    );
 
-    // this.bookAuthorInput.value = '';
-    this.bookTotalPagesInput.value = '';
+    // this.bookTotalPagesInput.value = '';
     this.bookCompletedPagesInput.value = '';
     this.bookCompleted.checked = false;
   }
@@ -385,7 +409,19 @@ ModalBookFactory.prototype.validate = function() {
         'Author cannot be empty and length must be less than 30'
       );
     }
-    if (this.bookTitleInput.validated && this.bookAuthorInput.validated) {
+    if (!this.bookTotalPagesInput.validated) {
+      this.changeToNotValid(
+        this.bookTotalPagesInput,
+        this.bookTotalPagesLabel,
+        'Total pages number should be more than 0 and less than 9999999'
+      );
+    }
+
+    if (
+      this.bookTitleInput.validated &&
+      this.bookAuthorInput.validated &&
+      this.bookTotalPagesInput.validated
+    ) {
       return true;
     }
   }
