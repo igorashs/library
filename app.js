@@ -1,3 +1,4 @@
+'use strict';
 function Book(
   title = 'Unknown',
   author = 'Unknown',
@@ -96,15 +97,197 @@ function BookContainer(book) {
   this.element.appendChild(this.pagesCount);
 }
 
+function ModalFactory(modalType) {
+  if (modalType === 'add') {
+    // create wrapper element
+    this.wrapper = document.createElement('div');
+    this.wrapper.classList.add('modal-add-wrapper');
+    this.wrapper.classList.add('display-none');
+
+    // create modal-add element
+    this.element = document.createElement('div');
+    this.element.classList.add('modal-add');
+
+    // create modal-title element
+    this.modalTitle = document.createElement('div');
+    this.modalTitle.classList.add('modal-title');
+    // create title h2 element
+    this.title = document.createElement('h2');
+    this.title.textContent = 'Add New Book';
+    // add title element
+    this.modalTitle.appendChild(this.title);
+    // add modal-title element
+    this.element.appendChild(this.modalTitle);
+
+    // create content element
+    this.content = document.createElement('div');
+    this.content.classList.add('content');
+    // create book title element
+    this.bookTitleElement = document.createElement('div');
+    this.bookTitleElement.classList.add('element');
+    // create input book-title
+    this.bookTitleInput = document.createElement('input');
+    this.bookTitleInput.classList.add('input');
+    this.bookTitleInput.setAttribute('type', 'text');
+    this.bookTitleInput.setAttribute('id', 'book-add-title');
+    this.bookTitleInput.setAttribute('required', '');
+    // add input
+    this.bookTitleElement.appendChild(this.bookTitleInput);
+    // create label
+    this.bookTitleLabel = document.createElement('label');
+    this.bookTitleLabel.classList.add('title');
+    this.bookTitleLabel.setAttribute('for', 'book-add-title');
+    this.bookTitleLabel.textContent = 'Title';
+    // add label
+    this.bookTitleElement.appendChild(this.bookTitleLabel);
+    // add book title element
+    this.content.appendChild(this.bookTitleElement);
+
+    // create book author element
+    this.bookAuthorElement = document.createElement('div');
+    this.bookAuthorElement.classList.add('element');
+    // create input book-author
+    this.bookAuthorInput = document.createElement('input');
+    this.bookAuthorInput.classList.add('input');
+    this.bookAuthorInput.setAttribute('type', 'text');
+    this.bookAuthorInput.setAttribute('id', 'book-add-author');
+    this.bookAuthorInput.setAttribute('required', '');
+    // add input
+    this.bookAuthorElement.appendChild(this.bookAuthorInput);
+    // create label
+    this.bookAuthorLabel = document.createElement('label');
+    this.bookAuthorLabel.classList.add('title');
+    this.bookAuthorLabel.setAttribute('for', 'book-add-author');
+    this.bookAuthorLabel.textContent = 'Author';
+    // add label
+    this.bookAuthorElement.appendChild(this.bookAuthorLabel);
+    // add book author element
+    this.content.appendChild(this.bookAuthorElement);
+
+    // create book total pages element
+    this.bookTotalPagesElement = document.createElement('div');
+    this.bookTotalPagesElement.classList.add('element');
+    // create input book-total-pages
+    this.bookTotalPagesInput = document.createElement('input');
+    this.bookTotalPagesInput.classList.add('input');
+    this.bookTotalPagesInput.classList.add('number');
+    this.bookTotalPagesInput.setAttribute('type', 'text');
+    this.bookTotalPagesInput.setAttribute('id', 'book-add-total-pages');
+    this.bookTotalPagesInput.setAttribute('required', '');
+    // add input
+    this.bookTotalPagesElement.appendChild(this.bookTotalPagesInput);
+    // create label
+    this.bookTotalPagesLabel = document.createElement('label');
+    this.bookTotalPagesLabel.classList.add('title');
+    this.bookTotalPagesLabel.setAttribute('for', 'book-add-total-pages');
+    this.bookTotalPagesLabel.textContent = 'Total pages';
+    // add label
+    this.bookTotalPagesElement.appendChild(this.bookTotalPagesLabel);
+    // add book author element
+    this.content.appendChild(this.bookTotalPagesElement);
+
+    // create book completed pages element
+    this.bookCompletedPagesElement = document.createElement('div');
+    this.bookCompletedPagesElement.classList.add('element');
+    // create check pages element
+    this.bookCompletedPagesCheckElement = document.createElement('div');
+    this.bookCompletedPagesCheckElement.classList.add('completed-check');
+
+    // create input book-completed-pages
+    this.bookCompletedPagesInput = document.createElement('input');
+    this.bookCompletedPagesInput.classList.add('input');
+    this.bookCompletedPagesInput.classList.add('number');
+    this.bookCompletedPagesInput.setAttribute('type', 'text');
+    this.bookCompletedPagesInput.setAttribute('id', 'book-add-completed-pages');
+    this.bookCompletedPagesInput.setAttribute('required', '');
+    // add input
+    this.bookCompletedPagesCheckElement.appendChild(
+      this.bookCompletedPagesInput
+    );
+    // create label
+    this.bookCompletedPagesLabel = document.createElement('label');
+    this.bookCompletedPagesLabel.classList.add('title');
+    this.bookCompletedPagesLabel.setAttribute(
+      'for',
+      'book-add-completed-pages'
+    );
+    this.bookCompletedPagesLabel.textContent = 'Completed pages';
+    // add label
+    this.bookCompletedPagesCheckElement.appendChild(
+      this.bookCompletedPagesLabel
+    );
+    // create check input
+    this.bookCompleted = document.createElement('input');
+    this.bookCompleted.classList.add('input');
+    this.bookCompleted.classList.add('check');
+    this.bookCompleted.setAttribute('type', 'checkbox');
+    // add check input
+    this.bookCompletedPagesCheckElement.appendChild(this.bookCompleted);
+    // add completed pages check element
+    this.bookCompletedPagesElement.appendChild(
+      this.bookCompletedPagesCheckElement
+    );
+    // add book author element
+    this.content.appendChild(this.bookCompletedPagesElement);
+    // add content element
+    this.element.appendChild(this.content);
+
+    // create options element
+    this.options = document.createElement('div');
+    this.options.classList.add('options');
+
+    // create cancel button
+    this.buttonCancel = document.createElement('button');
+    this.buttonCancel.classList.add('button');
+    this.buttonCancel.classList.add('red-bg');
+    this.buttonCancel.textContent = 'Cancel';
+    // add cancel button
+    this.options.appendChild(this.buttonCancel);
+
+    // create add button
+    this.buttonAdd = document.createElement('button');
+    this.buttonAdd.classList.add('button');
+    this.buttonAdd.classList.add('green-bg');
+    this.buttonAdd.textContent = 'Add';
+    // add cancel button
+    this.options.appendChild(this.buttonAdd);
+
+    // add options element
+    this.element.appendChild(this.options);
+
+    // add element
+    this.wrapper.appendChild(this.element);
+
+    // add events
+    const wrp = this;
+
+    this.buttonCancel.addEventListener('click', () => wrp.off());
+  }
+}
+// create function for modals
+ModalFactory.prototype.on = function() {
+  if (this.wrapper) this.wrapper.classList.remove('display-none');
+};
+ModalFactory.prototype.off = function() {
+  if (this.wrapper) this.wrapper.classList.add('display-none');
+};
+ModalFactory.prototype.insertInBody = function() {
+  if (this.wrapper) document.body.appendChild(this.wrapper);
+};
+
 // ref main elements
 const libraryContainer = document.querySelector('.library-main');
 const buttonAddBook = document.querySelector('.add-button');
+let addModal = new ModalFactory('add');
+
+// append to the end of body
+addModal.insertInBody();
 
 // add events
 buttonAddBook.addEventListener('click', addBookHandler);
 
 function addBookHandler(e) {
-  modalAddWrapper.classList.remove('display-none');
+  addModal.on();
 }
 
 // let newBook = new Book('Серега Педор', 'Игорь Мудрый', 512, 64, false);
