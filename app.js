@@ -283,7 +283,7 @@ function ModalBookFactory(modalType) {
           newBookWrapper.element,
           libraryContainer.lastElementChild
         );
-        this.clearInputs();
+        this.clearAllInputs();
         this.off();
       }
     });
@@ -303,6 +303,25 @@ function ModalBookFactory(modalType) {
         );
       }
     });
+    // validation on author input
+    this.bookAuthorInput.addEventListener('input', (e) => {
+      if (
+        !!this.bookAuthorInput.value &&
+        this.bookAuthorInput.value.length <= 30
+      ) {
+        this.changeToValid(
+          this.bookAuthorInput,
+          this.bookAuthorLabel,
+          'Author'
+        );
+      } else {
+        this.changeToNotValid(
+          this.bookAuthorInput,
+          this.bookAuthorLabel,
+          'Author cannot be empty and length must be less than 30'
+        );
+      }
+    });
   } // this is end of if btw
 }
 // create function for modals
@@ -315,21 +334,25 @@ ModalBookFactory.prototype.off = function() {
 ModalBookFactory.prototype.insertInBody = function() {
   if (this.wrapper) document.body.appendChild(this.wrapper);
 };
-ModalBookFactory.prototype.clearInputs = function() {
+ModalBookFactory.prototype.clearAllInputs = function() {
   if (this.modalType === 'add') {
     // title
-    this.bookTitleInput.value = '';
-    this.bookTitleInput.classList.remove('input-validated');
-    this.bookTitleInput.classList.remove('input-not-validated');
-    this.bookTitleLabel.classList.remove('validation-message');
-    this.bookTitleLabel.textContent = 'Title';
-    this.bookTitleInput.validated = false;
+    this.clearInput(this.bookTitleInput, this.bookTitleLabel, 'Title');
+    this.clearInput(this.bookAuthorInput, this.bookAuthorLabel, 'Author');
 
-    this.bookAuthorInput.value = '';
+    // this.bookAuthorInput.value = '';
     this.bookTotalPagesInput.value = '';
     this.bookCompletedPagesInput.value = '';
     this.bookCompleted.checked = false;
   }
+};
+ModalBookFactory.prototype.clearInput = function(input, label, defaultValue) {
+  input.value = '';
+  input.classList.remove('input-validated');
+  input.classList.remove('input-not-validated');
+  label.classList.remove('validation-message');
+  label.textContent = defaultValue;
+  input.validated = false;
 };
 ModalBookFactory.prototype.changeToValid = function(input, label, message) {
   input.classList.remove('input-not-validated');
@@ -347,15 +370,23 @@ ModalBookFactory.prototype.changeToNotValid = function(input, label, message) {
 };
 ModalBookFactory.prototype.validate = function() {
   if (this.wrapper && this.modalType === 'add') {
-    console.log(this.bookTitleInput.validated);
+    // check for empty
     if (!this.bookTitleInput.validated) {
       this.changeToNotValid(
         this.bookTitleInput,
         this.bookTitleLabel,
         'Title cannot be empty and length must be less than 50'
       );
-    } else {
-      return true; // TODO validation here (input)
+    }
+    if (!this.bookAuthorInput.validated) {
+      this.changeToNotValid(
+        this.bookAuthorInput,
+        this.bookAuthorLabel,
+        'Author cannot be empty and length must be less than 30'
+      );
+    }
+    if (this.bookTitleInput.validated && this.bookAuthorInput.validated) {
+      return true;
     }
   }
 };
@@ -372,6 +403,6 @@ addModal.insertInBody();
 buttonAddBook.addEventListener('click', addBookHandler);
 
 function addBookHandler(e) {
-  addModal.clearInputs();
+  addModal.clearAllInputs();
   addModal.on();
 }
