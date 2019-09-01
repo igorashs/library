@@ -97,7 +97,7 @@ function BookContainer(book) {
   this.element.appendChild(this.pagesCount);
 }
 
-function ModalFactory(modalType) {
+function ModalBookFactory(modalType) {
   if (modalType === 'add') {
     this.modalType = modalType;
     // create wrapper element
@@ -132,6 +132,7 @@ function ModalFactory(modalType) {
     this.bookTitleInput.setAttribute('type', 'text');
     this.bookTitleInput.setAttribute('id', 'book-add-title');
     this.bookTitleInput.setAttribute('required', '');
+    this.bookTitleInput.validated = false;
     // add input
     this.bookTitleElement.appendChild(this.bookTitleInput);
     // create label
@@ -153,6 +154,7 @@ function ModalFactory(modalType) {
     this.bookAuthorInput.setAttribute('type', 'text');
     this.bookAuthorInput.setAttribute('id', 'book-add-author');
     this.bookAuthorInput.setAttribute('required', '');
+    this.bookAuthorInput.validated = false;
     // add input
     this.bookAuthorElement.appendChild(this.bookAuthorInput);
     // create label
@@ -175,6 +177,7 @@ function ModalFactory(modalType) {
     this.bookTotalPagesInput.setAttribute('type', 'text');
     this.bookTotalPagesInput.setAttribute('id', 'book-add-total-pages');
     this.bookTotalPagesInput.setAttribute('required', '');
+    this.bookTotalPagesInput.validated = false;
     // add input
     this.bookTotalPagesElement.appendChild(this.bookTotalPagesInput);
     // create label
@@ -201,6 +204,7 @@ function ModalFactory(modalType) {
     this.bookCompletedPagesInput.setAttribute('type', 'text');
     this.bookCompletedPagesInput.setAttribute('id', 'book-add-completed-pages');
     this.bookCompletedPagesInput.setAttribute('required', '');
+    this.bookCompletedPagesInput.validated = false;
     // add input
     this.bookCompletedPagesCheckElement.appendChild(
       this.bookCompletedPagesInput
@@ -260,40 +264,61 @@ function ModalFactory(modalType) {
     this.wrapper.appendChild(this.element);
 
     // add events
-    const wrp = this;
 
-    this.buttonCancel.addEventListener('click', () => wrp.off());
+    this.buttonCancel.addEventListener('click', () => this.off());
     this.buttonAdd.addEventListener('click', () => {
-      if (wrp.validate()) {
+      if (this.validate()) {
         let newBook = new Book(
-          wrp.bookTitleInput.value,
-          wrp.bookAuthorInput.value,
-          wrp.bookTotalPagesInput.value,
-          wrp.bookCompletedPagesInput.value,
-          wrp.bookCompleted.checked
+          this.bookTitleInput.value,
+          this.bookAuthorInput.value,
+          this.bookTotalPagesInput.value,
+          this.bookCompletedPagesInput.value,
+          this.bookCompleted.checked
         );
         let newBookWrapper = new BookContainer(newBook);
         libraryContainer.insertBefore(
           newBookWrapper.element,
           libraryContainer.lastElementChild
         );
-        wrp.clearInputs();
-        wrp.off();
+        this.clearInputs();
+        this.off();
       }
     });
-  }
+
+    this.bookTitleInput.addEventListener('input', (e) => {
+      if (
+        !!this.bookTitleInput.value &&
+        this.bookTitleInput.value.length <= 50
+      ) {
+        this.bookTitleInput.classList.remove('input-not-validated');
+        this.bookTitleInput.classList.add('input-validated');
+        this.bookTitleLabel.textContent = 'Title';
+        this.bookTitleLabel.classList.remove('validation-message');
+        this.bookTitleLabel.validated = true;
+      } else {
+        this.bookTitleLabel.textContent =
+          'Title cannot be empty and length must be less than 50';
+        this.bookTitleLabel.classList.add('validation-message');
+        this.bookTitleInput.classList.remove('input-validated');
+        this.bookTitleInput.classList.add('input-not-validated');
+        this.bookTitleLabel.validated = false;
+      }
+    });
+
+    // function validationInputsHandler()
+  } // this is end of if btw
 }
 // create function for modals
-ModalFactory.prototype.on = function() {
+ModalBookFactory.prototype.on = function() {
   if (this.wrapper) this.wrapper.classList.remove('display-none');
 };
-ModalFactory.prototype.off = function() {
+ModalBookFactory.prototype.off = function() {
   if (this.wrapper) this.wrapper.classList.add('display-none');
 };
-ModalFactory.prototype.insertInBody = function() {
+ModalBookFactory.prototype.insertInBody = function() {
   if (this.wrapper) document.body.appendChild(this.wrapper);
 };
-ModalFactory.prototype.clearInputs = function() {
+ModalBookFactory.prototype.clearInputs = function() {
   if (this.modalType === 'add') {
     this.bookTitleInput.value = '';
     this.bookAuthorInput.value = '';
@@ -302,16 +327,17 @@ ModalFactory.prototype.clearInputs = function() {
     this.bookCompleted.checked = false;
   }
 };
-ModalFactory.prototype.validate = function() {
+ModalBookFactory.prototype.validate = function() {
   if (this.wrapper && this.modalType === 'add') {
-    return true; // TODO validation here (input)
+    console.log(this.bookTitleInput.validated);
+    if (this.bookTitleInput.validated) return true; // TODO validation here (input)
   }
 };
 
 // ref main elements
 const libraryContainer = document.querySelector('.library-main');
 const buttonAddBook = document.querySelector('.add-button');
-let addModal = new ModalFactory('add');
+let addModal = new ModalBookFactory('add');
 
 // append to the end of body
 addModal.insertInBody();
@@ -320,13 +346,6 @@ addModal.insertInBody();
 buttonAddBook.addEventListener('click', addBookHandler);
 
 function addBookHandler(e) {
+  addModal.clearInputs();
   addModal.on();
 }
-
-// let newBook = new Book('Серега Педор', 'Игорь Мудрый', 512, 64, false);
-// const bookWrapper = new BookContainer(newBook);
-
-// libraryContainer.insertBefore(
-//   bookWrapper.element,
-//   libraryContainer.lastElementChild
-// );

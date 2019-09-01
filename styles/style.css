@@ -447,6 +447,9 @@ body {
 .input-not-validated {
   border-bottom: 2px solid rgba(255, 0, 0, 0.6) !important;
 }
+.validation-message {
+  color: rgb(255, 111, 86) !important;
+}
 /* responsive  */
 @media only screen and (max-width: 1720px) {
   .library-main {
