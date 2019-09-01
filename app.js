@@ -322,6 +322,28 @@ function ModalBookFactory(modalType) {
         );
       }
     });
+    // handler for completed pages validation
+    const validCompletedPagesHandler = (e) => {
+      if (
+        this.bookTotalPagesInput.validated &&
+        !!this.bookCompletedPagesInput.value &&
+        /^\d+$/g.test(this.bookCompletedPagesInput.value) &&
+        +this.bookCompletedPagesInput.value >= 0 &&
+        +this.bookCompletedPagesInput.value <= +this.bookTotalPagesInput.value
+      ) {
+        this.changeToValid(
+          this.bookCompletedPagesInput,
+          this.bookCompletedPagesLabel,
+          'Completed pages'
+        );
+      } else {
+        this.changeToNotValid(
+          this.bookCompletedPagesInput,
+          this.bookCompletedPagesLabel,
+          'Completed pages number should be less than total pages number'
+        );
+      }
+    };
     // validation total pages
     this.bookTotalPagesInput.addEventListener('input', (e) => {
       if (
@@ -335,6 +357,7 @@ function ModalBookFactory(modalType) {
           this.bookTotalPagesLabel,
           'Total pages'
         );
+        validCompletedPagesHandler();
       } else {
         this.changeToNotValid(
           this.bookTotalPagesInput,
@@ -343,6 +366,11 @@ function ModalBookFactory(modalType) {
         );
       }
     });
+    // validation completed pages
+    this.bookCompletedPagesInput.addEventListener(
+      'input',
+      validCompletedPagesHandler
+    );
   } // this is end of if btw
 }
 // create function for modals
@@ -364,9 +392,12 @@ ModalBookFactory.prototype.clearAllInputs = function() {
       this.bookTotalPagesLabel,
       'Total pages'
     );
+    this.clearInput(
+      this.bookCompletedPagesInput,
+      this.bookCompletedPagesLabel,
+      'Completed pages'
+    );
 
-    // this.bookTotalPagesInput.value = '';
-    this.bookCompletedPagesInput.value = '';
     this.bookCompleted.checked = false;
   }
 };
@@ -416,11 +447,19 @@ ModalBookFactory.prototype.validate = function() {
         'Total pages number should be more than 0 and less than 9999999'
       );
     }
+    if (!this.bookCompletedPagesInput.validated) {
+      this.changeToNotValid(
+        this.bookCompletedPagesInput,
+        this.bookCompletedPagesLabel,
+        'Completed pages number should be less than total pages number'
+      );
+    }
 
     if (
       this.bookTitleInput.validated &&
       this.bookAuthorInput.validated &&
-      this.bookTotalPagesInput.validated
+      this.bookTotalPagesInput.validated &&
+      this.bookCompletedPagesInput.validated
     ) {
       return true;
     }
