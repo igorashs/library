@@ -96,12 +96,21 @@ function BookContainer(book) {
   this.element.appendChild(this.pagesCount);
 }
 
+// ref main elements
 const libraryContainer = document.querySelector('.library-main');
+const buttonAddBook = document.querySelector('.add-button');
 
-let newBook = new Book('Adventure of Joran', 'Kekster', 512, 64, false);
-const bookWrapper = new BookContainer(newBook);
+// add events
+buttonAddBook.addEventListener('click', addBookHandler);
 
-libraryContainer.insertBefore(
-  bookWrapper.element,
-  libraryContainer.lastElementChild
-);
+function addBookHandler(e) {
+  modalAddWrapper.classList.remove('display-none');
+}
+
+// let newBook = new Book('Серега Педор', 'Игорь Мудрый', 512, 64, false);
+// const bookWrapper = new BookContainer(newBook);
+
+// libraryContainer.insertBefore(
+//   bookWrapper.element,
+//   libraryContainer.lastElementChild
+// );
