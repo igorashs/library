@@ -263,7 +263,7 @@ function ModalBookFactory(modalType) {
     // add element
     this.wrapper.appendChild(this.element);
 
-    // events
+    // events and functions
 
     // disable modal
     this.buttonCancel.addEventListener('click', () => this.off());
@@ -336,12 +336,33 @@ function ModalBookFactory(modalType) {
           this.bookCompletedPagesLabel,
           'Completed pages'
         );
+        if (
+          +this.bookTotalPagesInput.value ===
+          +this.bookCompletedPagesInput.value
+        ) {
+          this.bookCompleted.checked = true;
+        } else {
+          this.bookCompleted.checked = false;
+        }
       } else {
         this.changeToNotValid(
           this.bookCompletedPagesInput,
           this.bookCompletedPagesLabel,
           'Completed pages number should be less than total pages number'
         );
+        this.bookCompleted.checked = false;
+      }
+    };
+    // handler for checkbox completed pages
+    const validCompletedCheckBoxHandler = (e) => {
+      if (this.bookTotalPagesInput.validated && this.bookCompleted.checked) {
+        this.bookCompletedPagesInput.value = this.bookTotalPagesInput.value;
+        validCompletedPagesHandler();
+      }
+      if (
+        +this.bookTotalPagesInput.value === +this.bookCompletedPagesInput.value
+      ) {
+        this.bookCompleted.checked = true;
       }
     };
     // validation total pages
@@ -371,6 +392,8 @@ function ModalBookFactory(modalType) {
       'input',
       validCompletedPagesHandler
     );
+    // validation completed check
+    this.bookCompleted.addEventListener('click', validCompletedCheckBoxHandler);
   } // this is end of if btw
 }
 // create function for modals
@@ -397,7 +420,6 @@ ModalBookFactory.prototype.clearAllInputs = function() {
       this.bookCompletedPagesLabel,
       'Completed pages'
     );
-
     this.bookCompleted.checked = false;
   }
 };
