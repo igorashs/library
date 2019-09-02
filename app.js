@@ -11,6 +11,7 @@ function Book(
   this.totalPages = totalPages;
   this.completedPages = completedPages;
   this.completed = completed;
+  this.container = null;
 }
 
 function BookContainer(book) {
@@ -97,25 +98,52 @@ function BookContainer(book) {
   this.pagesCount.appendChild(this.totalPages);
   // add pages-count element
   this.element.appendChild(this.pagesCount);
+
+  // add container to book
+  book.container = this;
+
+  // handlers
+  const bookEditHandler = (e) => {
+    editModal.clearAllInputs();
+    editModal.on();
+    editModal.editBook(this.element.dataset.id);
+  };
+
+  // add events
+  this.buttonEdit.addEventListener('click', bookEditHandler);
 }
 
+BookContainer.prototype.updateContainerFor = function(book) {
+  if (book.container) {
+    book.container.title.textContent = book.title;
+    book.container.author.textContent = book.author;
+    book.container.totalPages.textContent = book.totalPages;
+    book.container.completedPages.textContent =  book.completedPages;
+    // book.container something = book.completed;
+  }
+};
+
 function ModalBookFactory(modalType) {
-  if (modalType === 'add') {
+  if (modalType === 'add' || modalType === 'edit') {
     // create wrapper element
     this.wrapper = document.createElement('div');
-    this.wrapper.classList.add('modal-add-wrapper');
+    this.wrapper.classList.add(`modal-${modalType}-wrapper`);
     this.wrapper.classList.add('display-none');
 
     // create modal-add element
     this.element = document.createElement('div');
-    this.element.classList.add('modal-add');
+    this.element.classList.add(`modal-${modalType}`);
 
     // create modal-title element
     this.modalTitle = document.createElement('div');
     this.modalTitle.classList.add('modal-title');
     // create title h2 element
     this.title = document.createElement('h2');
-    this.title.textContent = 'Add New Book';
+    if (modalType === 'add') {
+      this.title.textContent = 'Add New Book';
+    } else {
+      this.title.textContent = 'Edit Book';
+    }
     // add title element
     this.modalTitle.appendChild(this.title);
     // add modal-title element
@@ -131,7 +159,7 @@ function ModalBookFactory(modalType) {
     this.bookTitleInput = document.createElement('input');
     this.bookTitleInput.classList.add('input');
     this.bookTitleInput.setAttribute('type', 'text');
-    this.bookTitleInput.setAttribute('id', 'book-add-title');
+    this.bookTitleInput.setAttribute('id', `book-${modalType}-title`);
     this.bookTitleInput.setAttribute('required', '');
     this.bookTitleInput.validated = false;
     // add input
@@ -139,7 +167,7 @@ function ModalBookFactory(modalType) {
     // create label
     this.bookTitleLabel = document.createElement('label');
     this.bookTitleLabel.classList.add('title');
-    this.bookTitleLabel.setAttribute('for', 'book-add-title');
+    this.bookTitleLabel.setAttribute('for', `book-${modalType}-title`);
     this.bookTitleLabel.textContent = 'Title';
     // add label
     this.bookTitleElement.appendChild(this.bookTitleLabel);
@@ -153,7 +181,7 @@ function ModalBookFactory(modalType) {
     this.bookAuthorInput = document.createElement('input');
     this.bookAuthorInput.classList.add('input');
     this.bookAuthorInput.setAttribute('type', 'text');
-    this.bookAuthorInput.setAttribute('id', 'book-add-author');
+    this.bookAuthorInput.setAttribute('id', `book-${modalType}-author`);
     this.bookAuthorInput.setAttribute('required', '');
     this.bookAuthorInput.validated = false;
     // add input
@@ -161,7 +189,7 @@ function ModalBookFactory(modalType) {
     // create label
     this.bookAuthorLabel = document.createElement('label');
     this.bookAuthorLabel.classList.add('title');
-    this.bookAuthorLabel.setAttribute('for', 'book-add-author');
+    this.bookAuthorLabel.setAttribute('for', `book-${modalType}-author`);
     this.bookAuthorLabel.textContent = 'Author';
     // add label
     this.bookAuthorElement.appendChild(this.bookAuthorLabel);
@@ -176,7 +204,10 @@ function ModalBookFactory(modalType) {
     this.bookTotalPagesInput.classList.add('input');
     this.bookTotalPagesInput.classList.add('number');
     this.bookTotalPagesInput.setAttribute('type', 'text');
-    this.bookTotalPagesInput.setAttribute('id', 'book-add-total-pages');
+    this.bookTotalPagesInput.setAttribute(
+      'id',
+      `book-${modalType}-total-pages`
+    );
     this.bookTotalPagesInput.setAttribute('required', '');
     this.bookTotalPagesInput.validated = false;
     // add input
@@ -184,7 +215,10 @@ function ModalBookFactory(modalType) {
     // create label
     this.bookTotalPagesLabel = document.createElement('label');
     this.bookTotalPagesLabel.classList.add('title');
-    this.bookTotalPagesLabel.setAttribute('for', 'book-add-total-pages');
+    this.bookTotalPagesLabel.setAttribute(
+      'for',
+      `book-${modalType}-total-pages`
+    );
     this.bookTotalPagesLabel.textContent = 'Total pages';
     // add label
     this.bookTotalPagesElement.appendChild(this.bookTotalPagesLabel);
@@ -203,7 +237,10 @@ function ModalBookFactory(modalType) {
     this.bookCompletedPagesInput.classList.add('input');
     this.bookCompletedPagesInput.classList.add('number');
     this.bookCompletedPagesInput.setAttribute('type', 'text');
-    this.bookCompletedPagesInput.setAttribute('id', 'book-add-completed-pages');
+    this.bookCompletedPagesInput.setAttribute(
+      'id',
+      `book-${modalType}-completed-pages`
+    );
     this.bookCompletedPagesInput.setAttribute('required', '');
     this.bookCompletedPagesInput.validated = false;
     // add input
@@ -215,7 +252,7 @@ function ModalBookFactory(modalType) {
     this.bookCompletedPagesLabel.classList.add('title');
     this.bookCompletedPagesLabel.setAttribute(
       'for',
-      'book-add-completed-pages'
+      `book-${modalType}-completed-pages`
     );
     this.bookCompletedPagesLabel.textContent = 'Completed pages';
     // add label
@@ -251,12 +288,24 @@ function ModalBookFactory(modalType) {
     this.options.appendChild(this.buttonCancel);
 
     // create add button
-    this.buttonAdd = document.createElement('button');
-    this.buttonAdd.classList.add('button');
-    this.buttonAdd.classList.add('green-bg');
-    this.buttonAdd.textContent = 'Add';
-    // add cancel button
-    this.options.appendChild(this.buttonAdd);
+    if (modalType === 'add') {
+      this.buttonAdd = document.createElement('button');
+      this.buttonAdd.classList.add('button');
+      this.buttonAdd.classList.add('green-bg');
+      this.buttonAdd.textContent = 'Add';
+
+      // add  button
+      this.options.appendChild(this.buttonAdd);
+    } else {
+      // create edit button
+      this.buttonEdit = document.createElement('button');
+      this.buttonEdit.classList.add('button');
+      this.buttonEdit.classList.add('green-bg');
+      this.buttonEdit.textContent = 'Edit';
+
+      // add  button
+      this.options.appendChild(this.buttonEdit);
+    }
 
     // add options element
     this.element.appendChild(this.options);
@@ -270,26 +319,63 @@ function ModalBookFactory(modalType) {
     this.buttonCancel.addEventListener('click', () => this.off());
 
     // add new book
-    this.buttonAdd.addEventListener('click', () => {
-      if (this.validate()) {
-        let newBook = new Book(
-          this.bookTitleInput.value,
-          this.bookAuthorInput.value,
-          +this.bookTotalPagesInput.value,
-          +this.bookCompletedPagesInput.value,
-          this.bookCompleted.checked
-        );
-        let newBookWrapper = new BookContainer(newBook);
-        // add new book to myLibrary
-        myLibrary.push(newBook);
-        libraryContainer.insertBefore(
-          newBookWrapper.element,
-          libraryContainer.lastElementChild
-        );
-        this.clearAllInputs();
-        this.off();
-      }
-    });
+    if (modalType == 'add') {
+      this.buttonAdd.addEventListener('click', () => {
+        if (this.validate()) {
+          let newBook = new Book(
+            this.bookTitleInput.value,
+            this.bookAuthorInput.value,
+            +this.bookTotalPagesInput.value,
+            +this.bookCompletedPagesInput.value,
+            this.bookCompleted.checked
+          );
+          let newBookWrapper = new BookContainer(newBook);
+          // add new book to myLibrary
+          myLibrary.push(newBook);
+          libraryContainer.insertBefore(
+            newBookWrapper.element,
+            libraryContainer.lastElementChild
+          );
+          this.clearAllInputs();
+          this.off();
+        }
+      });
+    } else {
+      // make new changes to book
+      this.buttonEdit.addEventListener('click', () => {
+        if (this.validate()) {
+          let book = myLibrary[this.currentBookId];
+
+          book.title = this.bookTitleInput.value;
+          book.author = this.bookAuthorInput.value;
+          book.totalPages = this.bookTotalPagesInput.value;
+          book.completedPages = this.bookCompletedPagesInput.value;
+          book.completed = this.bookCompleted.checked;
+          this.off();
+          book.container.updateContainerFor(book);
+        }
+      });
+    }
+
+    // edit book
+    if (modalType === 'edit') {
+      this.editBook = function(bookId) {
+        // change current id
+        this.currentBookId = bookId;
+        let book = myLibrary[bookId];
+        this.bookTitleInput.value = book.title;
+        this.bookAuthorInput.value = book.author;
+        this.bookTotalPagesInput.value = book.totalPages;
+        this.bookCompletedPagesInput.value = book.completedPages;
+        this.bookCompleted.checked = book.completed;
+        this.changeAllToValid();
+
+        if(book.totalPages !== book.completedPages) {
+          this.bookCompleted.checked = false;
+        }
+      };
+    }
+
     // validation
     // validation on title input
     this.bookTitleInput.addEventListener('input', (e) => {
@@ -402,7 +488,8 @@ function ModalBookFactory(modalType) {
     this.bookCompleted.addEventListener('click', validCompletedCheckBoxHandler);
   } // this is end of if btw
 }
-// create function for modals
+
+// create prototype functions for modals
 ModalBookFactory.prototype.on = function() {
   if (this.wrapper) this.wrapper.classList.remove('display-none');
 };
@@ -493,14 +580,29 @@ ModalBookFactory.prototype.validate = function() {
     }
   }
 };
-
+ModalBookFactory.prototype.changeAllToValid = function() {
+  this.changeToValid(this.bookTitleInput, this.bookTitleLabel, 'Title');
+  this.changeToValid(this.bookAuthorInput, this.bookAuthorLabel, 'Author');
+  this.changeToValid(
+    this.bookCompletedPagesInput,
+    this.bookCompletedPagesLabel,
+    'Completed pages'
+  );
+  this.changeToValid(
+    this.bookTotalPagesInput,
+    this.bookTotalPagesLabel,
+    'Total pages'
+  );
+};
 // ref main elements
 const libraryContainer = document.querySelector('.library-main');
 const buttonAddBook = document.querySelector('.add-button');
 let addModal = new ModalBookFactory('add');
+let editModal = new ModalBookFactory('edit');
 
 // append to the end of body
 addModal.insertInBody();
+editModal.insertInBody();
 
 // my library data
 let myLibrary = [];
