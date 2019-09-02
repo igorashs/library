@@ -101,7 +101,6 @@ function BookContainer(book) {
 
 function ModalBookFactory(modalType) {
   if (modalType === 'add') {
-    this.modalType = modalType;
     // create wrapper element
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('modal-add-wrapper');
@@ -414,7 +413,7 @@ ModalBookFactory.prototype.insertInBody = function() {
   if (this.wrapper) document.body.appendChild(this.wrapper);
 };
 ModalBookFactory.prototype.clearAllInputs = function() {
-  if (this.modalType === 'add') {
+  if (this.wrapper) {
     this.clearInput(this.bookTitleInput, this.bookTitleLabel, 'Title');
     this.clearInput(this.bookAuthorInput, this.bookAuthorLabel, 'Author');
     this.clearInput(
@@ -453,7 +452,7 @@ ModalBookFactory.prototype.changeToNotValid = function(input, label, message) {
   input.validated = false;
 };
 ModalBookFactory.prototype.validate = function() {
-  if (this.wrapper && this.modalType === 'add') {
+  if (this.wrapper) {
     // check for empty
     if (!this.bookTitleInput.validated) {
       this.changeToNotValid(
