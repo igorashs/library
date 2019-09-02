@@ -481,3 +481,7 @@ body {
     display: none;
   }
 }
+/* firefox */
+input:required {
+  box-shadow: none !important;
+}
