@@ -364,6 +364,9 @@ function ModalBookFactory(modalType) {
       ) {
         this.bookCompleted.checked = true;
       }
+      if (!this.bookTotalPagesInput.validated) {
+        this.bookCompleted.checked = false;
+      }
     };
     // validation total pages
     this.bookTotalPagesInput.addEventListener('input', (e) => {
