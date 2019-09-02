@@ -112,7 +112,12 @@ function BookContainer(book) {
 
   const bookRemoveHandler = (e) => {
     // call modal
-    myLibrary.splice(this.element.dataset.id, 1);
+    let index = myLibrary.findIndex(
+      (book) => book.id === +this.element.dataset.id
+    );
+
+    myLibrary.splice(index, 1);
+
     libraryContainer.removeChild(this.element);
   };
 
