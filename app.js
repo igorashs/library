@@ -17,6 +17,8 @@ function BookContainer(book) {
   this.element = document.createElement('div');
   this.element.classList.add('book-container');
 
+  this.element.dataset.id = myLibrary.length;
+
   // create options element
   this.options = document.createElement('div');
   this.options.classList.add('options');
@@ -279,6 +281,8 @@ function ModalBookFactory(modalType) {
           this.bookCompleted.checked
         );
         let newBookWrapper = new BookContainer(newBook);
+        // add new book to myLibrary
+        myLibrary.push(newBook);
         libraryContainer.insertBefore(
           newBookWrapper.element,
           libraryContainer.lastElementChild
@@ -498,6 +502,9 @@ let addModal = new ModalBookFactory('add');
 
 // append to the end of body
 addModal.insertInBody();
+
+// my library data
+let myLibrary = [];
 
 // add events
 buttonAddBook.addEventListener('click', addBookHandler);
