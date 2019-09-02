@@ -107,23 +107,39 @@ function BookContainer(book) {
   const bookEditHandler = (e) => {
     editModal.clearAllInputs();
     editModal.on();
-    editModal.editBook(this.element.dataset.id);
+    editModal.editBook(book.id);
   };
-
   const bookRemoveHandler = (e) => {
     // call modal
-    let index = myLibrary.findIndex(
-      (book) => book.id === +this.element.dataset.id
-    );
-
+    let index = myLibrary.findIndex((b) => b.id === book.id);
     myLibrary.splice(index, 1);
 
     libraryContainer.removeChild(this.element);
   };
-
-  this.buttonRemove.addEventListener('click', bookRemoveHandler);
+  const bookIncCompletedPagesHandler = (e) => {
+    if (book.completedPages < book.totalPages) {
+      book.completedPages++;
+      if (book.completedPages === book.totalPages) {
+        book.completed = true;
+      }
+      this.updateContainerFor(book);
+    }
+  };
+  const bookDecCompletedPagesHandler = (e) => {
+    if (book.completedPages > 0) {
+      book.completedPages--;
+      book.completed = false;
+      this.updateContainerFor(book);
+    }
+  };
 
   // add events
+  this.buttonPagesSubtract.addEventListener(
+    'click',
+    bookDecCompletedPagesHandler
+  );
+  this.buttonPagesAdd.addEventListener('click', bookIncCompletedPagesHandler);
+  this.buttonRemove.addEventListener('click', bookRemoveHandler);
   this.buttonEdit.addEventListener('click', bookEditHandler);
 }
 
@@ -361,8 +377,8 @@ function ModalBookFactory(modalType) {
           let book = myLibrary.find((book) => book.id == this.currentBookId);
           book.title = this.bookTitleInput.value;
           book.author = this.bookAuthorInput.value;
-          book.totalPages = this.bookTotalPagesInput.value;
-          book.completedPages = this.bookCompletedPagesInput.value;
+          book.totalPages = +this.bookTotalPagesInput.value;
+          book.completedPages = +this.bookCompletedPagesInput.value;
           book.completed = this.bookCompleted.checked;
           this.off();
           book.container.updateContainerFor(book);
