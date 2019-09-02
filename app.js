@@ -6,7 +6,7 @@ function Book(
   completedPages = 0,
   completed = false
 ) {
-  this.id = uniqueId++;
+  this.id = ++uniqueId;
   this.title = title;
   this.author = author;
   this.totalPages = totalPages;
@@ -132,8 +132,14 @@ function BookContainer(book) {
       this.updateContainerFor(book);
     }
   };
+  const bookCompleteHandler = (e) => {
+    book.completed = true;
+    book.completedPages = book.totalPages;
+    this.updateContainerFor(book);
+  };
 
   // add events
+  this.buttonPagesComplete.addEventListener('click', bookCompleteHandler);
   this.buttonPagesSubtract.addEventListener(
     'click',
     bookDecCompletedPagesHandler
@@ -637,6 +643,8 @@ editModal.insertInBody();
 let myLibrary = [];
 
 // load data and find uniqueId
+// possible bugs
+// check the most bigger id from elements and assign
 let uniqueId = myLibrary.length;
 
 // add events
