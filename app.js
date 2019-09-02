@@ -6,6 +6,7 @@ function Book(
   completedPages = 0,
   completed = false
 ) {
+  this.id = uniqueId++;
   this.title = title;
   this.author = author;
   this.totalPages = totalPages;
@@ -18,7 +19,7 @@ function BookContainer(book) {
   this.element = document.createElement('div');
   this.element.classList.add('book-container');
 
-  this.element.dataset.id = myLibrary.length;
+  this.element.dataset.id = book.id;
 
   // create options element
   this.options = document.createElement('div');
@@ -109,6 +110,14 @@ function BookContainer(book) {
     editModal.editBook(this.element.dataset.id);
   };
 
+  const bookRemoveHandler = (e) => {
+    // call modal
+    myLibrary.splice(this.element.dataset.id, 1);
+    libraryContainer.removeChild(this.element);
+  };
+
+  this.buttonRemove.addEventListener('click', bookRemoveHandler);
+
   // add events
   this.buttonEdit.addEventListener('click', bookEditHandler);
 }
@@ -118,7 +127,7 @@ BookContainer.prototype.updateContainerFor = function(book) {
     book.container.title.textContent = book.title;
     book.container.author.textContent = book.author;
     book.container.totalPages.textContent = book.totalPages;
-    book.container.completedPages.textContent =  book.completedPages;
+    book.container.completedPages.textContent = book.completedPages;
     // book.container something = book.completed;
   }
 };
@@ -344,8 +353,7 @@ function ModalBookFactory(modalType) {
       // make new changes to book
       this.buttonEdit.addEventListener('click', () => {
         if (this.validate()) {
-          let book = myLibrary[this.currentBookId];
-
+          let book = myLibrary.find((book) => book.id == this.currentBookId);
           book.title = this.bookTitleInput.value;
           book.author = this.bookAuthorInput.value;
           book.totalPages = this.bookTotalPagesInput.value;
@@ -362,7 +370,7 @@ function ModalBookFactory(modalType) {
       this.editBook = function(bookId) {
         // change current id
         this.currentBookId = bookId;
-        let book = myLibrary[bookId];
+        let book = myLibrary.find((book) => book.id == bookId);
         this.bookTitleInput.value = book.title;
         this.bookAuthorInput.value = book.author;
         this.bookTotalPagesInput.value = book.totalPages;
@@ -370,7 +378,7 @@ function ModalBookFactory(modalType) {
         this.bookCompleted.checked = book.completed;
         this.changeAllToValid();
 
-        if(book.totalPages !== book.completedPages) {
+        if (book.totalPages !== book.completedPages) {
           this.bookCompleted.checked = false;
         }
       };
@@ -606,6 +614,9 @@ editModal.insertInBody();
 
 // my library data
 let myLibrary = [];
+
+// load data and find uniqueId
+let uniqueId = myLibrary.length;
 
 // add events
 buttonAddBook.addEventListener('click', addBookHandler);
