@@ -752,8 +752,10 @@ function ModalQueryFactory(modalType) {
     if (modalType === 'confirmation-selection') {
       // handlers for confirmation
       const yesButtonHandler = () => {
-        this.bookContainerToRemove.bookRemove();
-        this.bookContainerToRemove = null;
+        if (this.bookContainerToRemove) {
+          this.bookContainerToRemove.bookRemove();
+          this.bookContainerToRemove = null;
+        }
         this.off();
       };
       const noButtonHandler = () => {
