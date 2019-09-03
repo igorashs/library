@@ -805,7 +805,7 @@ let myLibrary = [];
 // load data and find uniqueId
 // possible bugs
 // check the most bigger id from elements and assign
-let uniqueId = 0;
+let uniqueId = getUniqueIdFromLocalStorage();
 
 // add events
 buttonAddBook.addEventListener('click', addBookHandler);
@@ -813,4 +813,30 @@ buttonAddBook.addEventListener('click', addBookHandler);
 function addBookHandler(e) {
   addModal.clearAllInputs();
   addModal.on();
+}
+
+// storageLocal functions
+function loadDataFromLocalStorage(key, obj = null) {
+  if (localStorage && localStorage[key]) {
+    obj = JSON.parse(localStorage[key]);
+    return obj;
+  }
+}
+function saveDataToLocalStorage(key, obj) {
+  if (localStorage) {
+    localStorage[key] = JSON.stringify(obj);
+  }
+}
+
+function getUniqueIdFromLocalStorage() {
+  const id = loadDataFromLocalStorage('uniqueId');
+  if (!id) {
+    return 0;
+  } else {
+    return +id;
+  }
+}
+
+function renderLibrary() {
+  // add add books
 }
