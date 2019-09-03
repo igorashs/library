@@ -786,6 +786,23 @@ function ModalQueryFactory(modalType) {
         this.on();
       };
     }
+
+    if (modalType === 'storage-selection') {
+      // storage handlers
+      const localButtonHandler = () => {
+        isLocal = true;
+        loadAll();
+        renderLibrary();
+        this.off();
+      };
+      const cloudButtonHandler = () => {
+        isLocal = false;
+      };
+
+      // events
+      this.storageLocalButton.addEventListener('click', localButtonHandler);
+      this.storageCloudButton.addEventListener('click', cloudButtonHandler);
+    }
   }
 }
 
@@ -811,7 +828,6 @@ storageSelectionModal.insertInBody();
 confirmationSelectionModal.insertInBody();
 
 // make remember this selection
-// storageSelectionModal.on();
 // my library data
 let myLibrary = [];
 let uniqueId = null;
@@ -819,8 +835,7 @@ let uniqueId = null;
 // local storage data
 let isLocal = true;
 // load data from cloud or local
-loadAll();
-renderLibrary();
+storageSelectionModal.on();
 
 // add events
 buttonAddBook.addEventListener('click', addBookHandler);
