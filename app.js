@@ -404,6 +404,15 @@ function ModalBookFactory(modalType) {
       });
     }
 
+    // renderBook
+    this.renderBook = function(book) {
+      let newBookWrapper = new BookContainer(book);
+      libraryContainer.insertBefore(
+        newBookWrapper.element,
+        libraryContainer.lastElementChild
+      );
+    };
+
     // edit book
     if (modalType === 'edit') {
       this.editBook = function(bookId) {
@@ -811,9 +820,10 @@ let uniqueId = null;
 let isLocal = true;
 // load data from cloud or local
 loadAll();
+renderLibrary();
+
 // add events
 buttonAddBook.addEventListener('click', addBookHandler);
-
 function addBookHandler(e) {
   addModal.clearAllInputs();
   addModal.on();
@@ -862,8 +872,10 @@ function loadAll() {
   }
 }
 
-// function renderLibrary() {
-//   myLibrary.forEach((b)=>{
-//     addModal.
-//   });
-// }
+function renderLibrary() {
+  if (myLibrary.length > 0) {
+    myLibrary.forEach((b) => {
+      addModal.renderBook(b);
+    });
+  }
+}
