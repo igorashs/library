@@ -814,6 +814,8 @@ ModalQueryFactory.prototype.off = ModalBookFactory.prototype.off;
 ModalQueryFactory.prototype.insertInBody =
   ModalBookFactory.prototype.insertInBody;
 
+  // TODO ModalLogin
+
 // ref main elements
 const libraryContainer = document.querySelector('.library-main');
 const buttonAddBook = document.querySelector('.add-button');
