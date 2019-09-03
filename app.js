@@ -863,7 +863,7 @@ function saveDataToLocalStorage(key, obj) {
 
 function getUniqueIdFromLocalStorage() {
   const id = loadDataFromLocalStorage('uniqueId');
-  if (!id || !myLibrary) {
+  if (!id) {
     return 0;
   } else {
     return +id;
