@@ -636,7 +636,7 @@ ModalBookFactory.prototype.changeAllToValid = function() {
   );
 };
 
-// modal query factory 
+// modal query factory
 function ModalQueryFactory(modalType) {
   if (
     modalType === 'storage-selection' ||
@@ -801,10 +801,11 @@ confirmationSelectionModal.insertInBody();
 // my library data
 let myLibrary = [];
 
+// local storage data
 // load data and find uniqueId
 // possible bugs
 // check the most bigger id from elements and assign
-let uniqueId = myLibrary.length;
+let uniqueId = 0;
 
 // add events
 buttonAddBook.addEventListener('click', addBookHandler);
