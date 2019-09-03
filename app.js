@@ -103,19 +103,25 @@ function BookContainer(book) {
   // add container to book
   book.container = this;
 
-  // handlers
-  const bookEditHandler = (e) => {
-    editModal.clearAllInputs();
-    editModal.on();
-    editModal.editBook(book.id);
-  };
-  const bookRemoveHandler = (e) => {
-    // call modal
+  this.bookRemove = function() {
+    // remove book and container
     let index = myLibrary.findIndex((b) => b.id === book.id);
     myLibrary.splice(index, 1);
 
     libraryContainer.removeChild(this.element);
   };
+  // handlers
+  // call confirmation modal
+  const queryConfirmationHandler = (e) => {
+    confirmationSelectionModal.confirm(this);
+  };
+
+  const bookEditHandler = (e) => {
+    editModal.clearAllInputs();
+    editModal.on();
+    editModal.editBook(book.id);
+  };
+
   const bookIncCompletedPagesHandler = (e) => {
     if (book.completedPages < book.totalPages) {
       book.completedPages++;
@@ -145,7 +151,7 @@ function BookContainer(book) {
     bookDecCompletedPagesHandler
   );
   this.buttonPagesAdd.addEventListener('click', bookIncCompletedPagesHandler);
-  this.buttonRemove.addEventListener('click', bookRemoveHandler);
+  this.buttonRemove.addEventListener('click', queryConfirmationHandler);
   this.buttonEdit.addEventListener('click', bookEditHandler);
 }
 
@@ -629,15 +635,166 @@ ModalBookFactory.prototype.changeAllToValid = function() {
     'Total pages'
   );
 };
+
+// modal query factory 
+function ModalQueryFactory(modalType) {
+  if (
+    modalType === 'storage-selection' ||
+    modalType === 'confirmation-selection'
+  ) {
+    // create wrapper element
+    this.wrapper = document.createElement('div');
+    this.wrapper.classList.add(`modal-${modalType}-wrapper`);
+    this.wrapper.classList.add('display-none');
+
+    // create element
+    this.element = document.createElement('div');
+    this.element.classList.add(`modal-${modalType}`);
+
+    // create title element
+    this.modalTitle = document.createElement('div');
+    this.modalTitle.classList.add('modal-title');
+
+    // create title h2 element
+    this.title = document.createElement('h2');
+
+    if (modalType === 'storage-selection') {
+      this.title.textContent = 'Where to Save Your Data?';
+    } else {
+      this.title.textContent = 'Do you Want to Remove Data?';
+    }
+    // add title element
+    this.modalTitle.appendChild(this.title);
+    // add modal-title element
+    this.element.appendChild(this.modalTitle);
+
+    // create content element
+    this.content = document.createElement('div');
+    this.content.classList.add('content');
+    // create element for content
+
+    if (modalType === 'storage-selection') {
+      // create storage cloud element
+      this.storageCloudElement = document.createElement('div');
+      this.storageCloudElement.classList.add('element');
+      // create storage cloud wrapper
+      this.storageCloudWrapper = document.createElement('div');
+      this.storageCloudWrapper.classList.add('selection');
+      this.storageCloudWrapper.classList.add('cloud');
+      // create button cloud
+      this.storageCloudButton = document.createElement('button');
+      this.storageCloudButton.textContent = 'Cloud';
+
+      // add button cloud element
+      this.storageCloudWrapper.appendChild(this.storageCloudButton);
+      // add wrapper element
+      this.storageCloudElement.appendChild(this.storageCloudWrapper);
+
+      // create storage local element
+      this.storageLocalElement = document.createElement('div');
+      this.storageLocalElement.classList.add('element');
+      // create storage local wrapper
+      this.storageLocalWrapper = document.createElement('div');
+      this.storageLocalWrapper.classList.add('selection');
+      this.storageLocalWrapper.classList.add('local');
+      // create button local
+      this.storageLocalButton = document.createElement('button');
+      this.storageLocalButton.textContent = 'Local';
+
+      // add button local element
+      this.storageLocalWrapper.appendChild(this.storageLocalButton);
+      // add wrapper element
+      this.storageLocalElement.appendChild(this.storageLocalWrapper);
+
+      this.content.appendChild(this.storageCloudElement);
+      this.content.appendChild(this.storageLocalElement);
+    } else {
+      // create no selection element
+      this.noSelectionElement = document.createElement('div');
+      this.noSelectionElement.classList.add('element');
+      // create no wrapper
+      this.noSelectionWrapper = document.createElement('div');
+      this.noSelectionWrapper.classList.add('selection');
+      // create button no
+      this.noSelectionButton = document.createElement('button');
+      this.noSelectionButton.textContent = 'No';
+
+      // add button no element
+      this.noSelectionWrapper.appendChild(this.noSelectionButton);
+      // add wrapper element
+      this.noSelectionElement.appendChild(this.noSelectionWrapper);
+
+      // create yes selection element
+      this.yesSelectionElement = document.createElement('div');
+      this.yesSelectionElement.classList.add('element');
+      // create yes wrapper
+      this.yesSelectionWrapper = document.createElement('div');
+      this.yesSelectionWrapper.classList.add('selection');
+      // create button yes
+      this.yesSelectionButton = document.createElement('button');
+      this.yesSelectionButton.textContent = 'Yes';
+
+      // add button yes element
+      this.yesSelectionWrapper.appendChild(this.yesSelectionButton);
+      // add wrapper element
+      this.yesSelectionElement.appendChild(this.yesSelectionWrapper);
+
+      this.content.appendChild(this.noSelectionElement);
+      this.content.appendChild(this.yesSelectionElement);
+    }
+
+    // add content element
+    this.element.appendChild(this.content);
+    // add element
+    this.wrapper.appendChild(this.element);
+
+    // events
+    if (modalType === 'confirmation-selection') {
+      // handlers for confirmation
+      const yesButtonHandler = () => {
+        this.bookContainerToRemove.bookRemove();
+        this.bookContainerToRemove = null;
+        this.off();
+      };
+      const noButtonHandler = () => {
+        this.bookContainerToRemove = null;
+        this.off();
+      };
+
+      this.yesSelectionButton.addEventListener('click', yesButtonHandler);
+      this.noSelectionButton.addEventListener('click', noButtonHandler);
+      // waiting for confirmation
+      this.confirm = (bookContainer) => {
+        this.bookContainerToRemove = bookContainer;
+        this.on();
+      };
+    }
+  }
+}
+
+ModalQueryFactory.prototype.on = ModalBookFactory.prototype.on;
+ModalQueryFactory.prototype.off = ModalBookFactory.prototype.off;
+ModalQueryFactory.prototype.insertInBody =
+  ModalBookFactory.prototype.insertInBody;
+
 // ref main elements
 const libraryContainer = document.querySelector('.library-main');
 const buttonAddBook = document.querySelector('.add-button');
 let addModal = new ModalBookFactory('add');
 let editModal = new ModalBookFactory('edit');
+let storageSelectionModal = new ModalQueryFactory('storage-selection');
+let confirmationSelectionModal = new ModalQueryFactory(
+  'confirmation-selection'
+);
 
 // append to the end of body
 addModal.insertInBody();
 editModal.insertInBody();
+storageSelectionModal.insertInBody();
+confirmationSelectionModal.insertInBody();
+
+// make remember this selection
+// storageSelectionModal.on();
 
 // my library data
 let myLibrary = [];

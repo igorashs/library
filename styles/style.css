@@ -264,7 +264,8 @@ body {
 /* modal add */
 .modal-add-wrapper,
 .modal-edit-wrapper,
-.modal-storage-selection-wrapper {
+.modal-storage-selection-wrapper,
+.modal-confirmation-selection-wrapper {
   z-index: 1;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.75);
@@ -280,7 +281,8 @@ body {
 }
 .modal-add,
 .modal-edit,
-.modal-storage-selection {
+.modal-storage-selection,
+.modal-confirmation-selection {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 6fr 1fr;
@@ -292,7 +294,8 @@ body {
 }
 .modal-add .modal-title,
 .modal-edit .modal-title,
-.modal-storage-selection .modal-title {
+.modal-storage-selection .modal-title,
+.modal-confirmation-selection .modal-title {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -316,7 +319,8 @@ body {
 }
 .modal-add .content,
 .modal-edit .content,
-.modal-storage-selection .content {
+.modal-storage-selection .content,
+.modal-confirmation-selection .content {
   display: grid;
   padding: 20px 0;
   grid-template-columns: 1fr;
@@ -325,7 +329,8 @@ body {
 }
 .modal-add .content .element,
 .modal-edit .content .element,
-.modal-storage-selection .content .element {
+.modal-storage-selection .content .element,
+.modal-confirmation-selection .content .element {
   position: relative;
   width: 80%;
   justify-self: center;
@@ -415,16 +420,20 @@ body {
 .modal-storage-selection-wrapper {
   background-color: rgba(0, 0, 0, 1);
 }
-.modal-storage-selection {
+.modal-storage-selection,
+.modal-confirmation-selection {
   grid-template-rows: 1fr 7fr;
 }
-.modal-storage-selection .content {
+.modal-storage-selection .content,
+.modal-confirmation-selection .content {
   grid-template-columns: 1fr 1fr;
 }
-.modal-storage-selection .content .element {
+.modal-storage-selection .content .element,
+.modal-confirmation-selection .content .element {
   width: auto;
 }
-.modal-storage-selection .content .element .storage button {
+.modal-storage-selection .content .element .selection button,
+.modal-confirmation-selection .content .element .selection button {
   width: 200px;
   height: 180px;
   color: #fff;
@@ -433,7 +442,8 @@ body {
   background-color: rgba(0, 0, 0, 0.3);
   transition: 1s;
 }
-.modal-storage-selection .content .element .storage button:hover {
+.modal-storage-selection .content .element .selection button:hover,
+.modal-confirmation-selection .content .element .selection button:hover {
   transform: scale(1.05);
   background-color: rgba(0, 0, 0, 0.4);
 }
