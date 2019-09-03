@@ -848,7 +848,8 @@ function addBookHandler(e) {
 }
 
 // storageLocal functions
-function loadDataFromLocalStorage(key, obj = null) {
+function loadDataFromLocalStorage(key) {
+  let obj = null;
   if (localStorage && localStorage[key]) {
     obj = JSON.parse(localStorage[key]);
     return obj;
