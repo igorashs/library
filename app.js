@@ -793,6 +793,9 @@ function ModalQueryFactory(modalType) {
         isLocal = true;
         loadAll();
         renderLibrary();
+        document
+          .querySelector('.library-container')
+          .classList.remove('display-none');
         this.off();
       };
       const cloudButtonHandler = () => {
