@@ -109,6 +109,7 @@ function BookContainer(book) {
     myLibrary.splice(index, 1);
 
     libraryContainer.removeChild(this.element);
+    saveAll();
   };
   // handlers
   // call confirmation modal
@@ -129,6 +130,7 @@ function BookContainer(book) {
         book.completed = true;
       }
       this.updateContainerFor(book);
+      saveAll();
     }
   };
   const bookDecCompletedPagesHandler = (e) => {
@@ -136,12 +138,14 @@ function BookContainer(book) {
       book.completedPages--;
       book.completed = false;
       this.updateContainerFor(book);
+      saveAll();
     }
   };
   const bookCompleteHandler = (e) => {
     book.completed = true;
     book.completedPages = book.totalPages;
     this.updateContainerFor(book);
+    saveAll();
   };
 
   // add events
@@ -378,6 +382,7 @@ function ModalBookFactory(modalType) {
             newBookWrapper.element,
             libraryContainer.lastElementChild
           );
+          saveAll();
           this.clearAllInputs();
           this.off();
         }
@@ -394,6 +399,7 @@ function ModalBookFactory(modalType) {
           book.completed = this.bookCompleted.checked;
           this.off();
           book.container.updateContainerFor(book);
+          saveAll();
         }
       });
     }
@@ -797,16 +803,14 @@ confirmationSelectionModal.insertInBody();
 
 // make remember this selection
 // storageSelectionModal.on();
-
 // my library data
 let myLibrary = [];
+let uniqueId = null;
 
 // local storage data
-// load data and find uniqueId
-// possible bugs
-// check the most bigger id from elements and assign
-let uniqueId = getUniqueIdFromLocalStorage();
-
+let isLocal = true;
+// load data from cloud or local
+loadAll();
 // add events
 buttonAddBook.addEventListener('click', addBookHandler);
 
@@ -830,13 +834,36 @@ function saveDataToLocalStorage(key, obj) {
 
 function getUniqueIdFromLocalStorage() {
   const id = loadDataFromLocalStorage('uniqueId');
-  if (!id) {
+  if (!id || !myLibrary) {
     return 0;
   } else {
     return +id;
   }
 }
-
-function renderLibrary() {
-  // add add books
+function getLibraryFromLocalStorage() {
+  let lib = loadDataFromLocalStorage('library');
+  if (!lib) {
+    return [];
+  } else {
+    return lib;
+  }
 }
+
+function saveAll() {
+  if (isLocal) {
+    saveDataToLocalStorage('library', myLibrary);
+    saveDataToLocalStorage('uniqueId', uniqueId);
+  }
+}
+function loadAll() {
+  if (isLocal) {
+    myLibrary = getLibraryFromLocalStorage();
+    uniqueId = getUniqueIdFromLocalStorage();
+  }
+}
+
+// function renderLibrary() {
+//   myLibrary.forEach((b)=>{
+//     addModal.
+//   });
+// }
