@@ -792,7 +792,7 @@ function ModalQueryFactory(modalType) {
       const localButtonHandler = () => {
         isLocal = true;
         loadAll();
-
+        renderLibrary(myLibrary);
         document
           .querySelector('.library-container')
           .classList.remove('display-none');
@@ -803,7 +803,6 @@ function ModalQueryFactory(modalType) {
       const cloudButtonHandler = () => {
         isLocal = false;
         initAuthState();
-        loadAll();
 
         this.off();
       };
@@ -835,6 +834,10 @@ const initAuthState = function(displayVale = '') {
         .querySelector('.library-container')
         .classList.remove('display-none');
       authCont.style.display = 'none';
+
+      // load data after from db
+      database = firebase.database();
+      loadAll();
 
       // change state of button
       singInButton.textContent = 'Sing Out';
@@ -945,7 +948,6 @@ function loadAll() {
   } else {
     loadDataFromCloudStorage();
   }
-  renderLibrary(myLibrary);
 }
 
 function renderLibrary(library) {
@@ -959,25 +961,26 @@ function renderLibrary(library) {
 function saveDataToCloudStorage() {
   let user = firebase.auth().currentUser;
   let dataJson = JSON.stringify({ myLibrary, uniqueId });
-  let userDb = database.ref('users/' + user.uid).set(dataJson);
+  database.ref('users/' + user.uid).set(dataJson);
 }
 
 function loadDataFromCloudStorage() {
-  if (database == null) {
-    database = firebase.database();
-  }
   let user = firebase.auth().currentUser;
 
-  database.ref('users/' + user.uid).on('value', (snap) => {
+  database.ref('users/' + user.uid).once('value', (snap) => {
     changeLibraryToDB(snap.val());
   });
 }
 
 function changeLibraryToDB(dbData) {
-  let userData = JSON.parse(dbData);
-  myLibrary = userData.myLibrary;
-  uniqueId = userData.uniqueId;
-
+  if (dbData != null) {
+    let userData = JSON.parse(dbData);
+    myLibrary = userData.myLibrary;
+    uniqueId = userData.uniqueId;
+  } else {
+    myLibrary = [];
+    uniqueId = 0;
+  }
   // need time
   renderLibrary(myLibrary);
 }
