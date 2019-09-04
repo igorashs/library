@@ -792,7 +792,7 @@ function ModalQueryFactory(modalType) {
       const localButtonHandler = () => {
         isLocal = true;
         loadAll();
-        renderLibrary();
+
         document
           .querySelector('.library-container')
           .classList.remove('display-none');
@@ -802,8 +802,10 @@ function ModalQueryFactory(modalType) {
       };
       const cloudButtonHandler = () => {
         isLocal = false;
-        this.off();
         initAuthState();
+        loadAll();
+
+        this.off();
       };
 
       // events
@@ -825,10 +827,9 @@ const initAuthState = function(displayVale = '') {
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       document.querySelector('.user .user-name').textContent = user.displayName;
-      const userImg =  document.querySelector('.user .user-photo');
+      const userImg = document.querySelector('.user .user-photo');
       userImg.setAttribute('src', user.photoURL);
       userImg.classList.remove('display-none');
-       
 
       document
         .querySelector('.library-container')
@@ -884,6 +885,7 @@ confirmationSelectionModal.insertInBody();
 // my library data
 let myLibrary = [];
 let uniqueId = null;
+let database = null;
 
 // local storage data
 let isLocal = true;
@@ -932,19 +934,50 @@ function saveAll() {
   if (isLocal) {
     saveDataToLocalStorage('library', myLibrary);
     saveDataToLocalStorage('uniqueId', uniqueId);
+  } else {
+    saveDataToCloudStorage();
   }
 }
 function loadAll() {
   if (isLocal) {
     myLibrary = getLibraryFromLocalStorage();
     uniqueId = getUniqueIdFromLocalStorage();
+  } else {
+    loadDataFromCloudStorage();
   }
+  renderLibrary(myLibrary);
 }
 
-function renderLibrary() {
-  if (myLibrary.length > 0) {
-    myLibrary.forEach((b) => {
+function renderLibrary(library) {
+  if (library.length > 0) {
+    library.forEach((b) => {
       addModal.renderBook(b);
     });
   }
+}
+
+function saveDataToCloudStorage() {
+  let user = firebase.auth().currentUser;
+  let dataJson = JSON.stringify({ myLibrary, uniqueId });
+  let userDb = database.ref('users/' + user.uid).set(dataJson);
+}
+
+function loadDataFromCloudStorage() {
+  if (database == null) {
+    database = firebase.database();
+  }
+  let user = firebase.auth().currentUser;
+
+  database.ref('users/' + user.uid).on('value', (snap) => {
+    changeLibraryToDB(snap.val());
+  });
+}
+
+function changeLibraryToDB(dbData) {
+  let userData = JSON.parse(dbData);
+  myLibrary = userData.myLibrary;
+  uniqueId = userData.uniqueId;
+
+  // need time
+  renderLibrary(myLibrary);
 }
