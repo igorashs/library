@@ -1,0 +1,35 @@
+.modal-ui-wrapper {
+  z-index: 1;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.9);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+}
+
+.firebaseui-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 5fr 1fr;
+  padding-top: 20px;
+  width: 600px;
+  height: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: rgba(64, 64, 64, 0.8);
+}
+
+.modal-ui-wrapper .modal-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-10px);
+  font-size: 32px;
+  font-weight: bold;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+}

@@ -8,8 +8,14 @@
       name="Description"
       content="Library, online library book, book cards"
     />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.css"
+    />
     <link rel="stylesheet" href="/styles/reset.css" />
     <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="stylesheet" href="/styles/firebaseuiadaptation.css" />
     <title>Library</title>
   </head>
   <body>
@@ -52,8 +58,20 @@
         <h2 id="creator">Made by Igorash</h2>
       </div>
     </div>
+
+    <div
+      id="firebaseui-auth-container"
+      class="modal-ui-wrapper"
+      style="display: none"
+    >
+      <div class="modal-title"><h2>Sing In</h2></div>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-auth.js"></script>
     <script src="firebaseInit.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.js"></script>
+    <script src="firebaseUIConfig.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

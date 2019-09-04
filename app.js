@@ -800,6 +800,13 @@ function ModalQueryFactory(modalType) {
       };
       const cloudButtonHandler = () => {
         isLocal = false;
+        this.off();
+        const authCont = document.getElementById('firebaseui-auth-container');
+        authCont.style.display = '';
+
+        // document
+        //   .querySelector('.library-container')
+        //   .classList.remove('display-none');
       };
 
       // events
@@ -814,7 +821,7 @@ ModalQueryFactory.prototype.off = ModalBookFactory.prototype.off;
 ModalQueryFactory.prototype.insertInBody =
   ModalBookFactory.prototype.insertInBody;
 
-  // TODO ModalLogin
+// TODO ModalLogin
 
 // ref main elements
 const libraryContainer = document.querySelector('.library-main');
