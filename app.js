@@ -801,12 +801,22 @@ function ModalQueryFactory(modalType) {
       const cloudButtonHandler = () => {
         isLocal = false;
         this.off();
-        const authCont = document.getElementById('firebaseui-auth-container');
+        const authCont = document.querySelector('.modal-ui-wrapper');
         authCont.style.display = '';
 
-        // document
-        //   .querySelector('.library-container')
-        //   .classList.remove('display-none');
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            console.log(user.displayName);
+
+            document
+              .querySelector('.library-container')
+              .classList.remove('display-none');
+              authCont.style.display = 'none';
+          } else {
+            console.log('bat');
+            ui.start('#firebaseui-auth-container', uiConfig);
+          }
+        });
       };
 
       // events

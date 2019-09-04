@@ -2,8 +2,6 @@ let uiConfig = {
   callbacks: {
     // Called when the user has been successfully signed in.
     signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-      document.querySelector('.library-panel .element .title').textContent =
-        authResult.user.displayName;
       return false;
     }
   },
@@ -27,4 +25,5 @@ let uiConfig = {
 // Initialize the FirebaseUI Widget using Firebase.
 let ui = new firebaseui.auth.AuthUI(firebase.auth());
 // The start method will wait until the DOM is loaded.
-ui.start('#firebaseui-auth-container', uiConfig);
+ui.disableAutoSignIn();
+// ui.start('#firebaseui-auth-container', uiConfig);
