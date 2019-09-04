@@ -57,6 +57,12 @@ body {
   font-size: 20px;
   margin-right: 20px;
 }
+.library-header .user .user-photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  margin-right: 20px;
+}
 .library-header .user .button {
   border: 0;
   font-size: 22px;

@@ -825,6 +825,10 @@ const initAuthState = function(displayVale = '') {
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       document.querySelector('.user .user-name').textContent = user.displayName;
+      const userImg =  document.querySelector('.user .user-photo');
+      userImg.setAttribute('src', user.photoURL);
+      userImg.classList.remove('display-none');
+       
 
       document
         .querySelector('.library-container')
@@ -841,6 +845,7 @@ const initAuthState = function(displayVale = '') {
       singInButton.removeEventListener('click', singOutHandler);
       singInButton.addEventListener('click', singInHandler);
 
+      document.querySelector('.user .user-photo').classList.add('display-none');
       document.querySelector('.user .user-name').textContent = '';
       ui.start('#firebaseui-auth-container', uiConfig);
     }
