@@ -796,27 +796,14 @@ function ModalQueryFactory(modalType) {
         document
           .querySelector('.library-container')
           .classList.remove('display-none');
+        singInButton.addEventListener('click', singInHandler);
+        initAuthState('none');
         this.off();
       };
       const cloudButtonHandler = () => {
         isLocal = false;
         this.off();
-        const authCont = document.querySelector('.modal-ui-wrapper');
-        authCont.style.display = '';
-
-        firebase.auth().onAuthStateChanged(function(user) {
-          if (user) {
-            console.log(user.displayName);
-
-            document
-              .querySelector('.library-container')
-              .classList.remove('display-none');
-              authCont.style.display = 'none';
-          } else {
-            console.log('bat');
-            ui.start('#firebaseui-auth-container', uiConfig);
-          }
-        });
+        initAuthState();
       };
 
       // events
@@ -831,7 +818,46 @@ ModalQueryFactory.prototype.off = ModalBookFactory.prototype.off;
 ModalQueryFactory.prototype.insertInBody =
   ModalBookFactory.prototype.insertInBody;
 
-// TODO ModalLogin
+const initAuthState = function(displayVale = '') {
+  const authCont = document.querySelector('.modal-ui-wrapper');
+  authCont.style.display = displayVale;
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      document.querySelector('.user .user-name').textContent = user.displayName;
+
+      document
+        .querySelector('.library-container')
+        .classList.remove('display-none');
+      authCont.style.display = 'none';
+
+      // change state of button
+      singInButton.textContent = 'Sing Out';
+      singInButton.removeEventListener('click', singInHandler);
+      singInButton.addEventListener('click', singOutHandler);
+    } else {
+      // change state of button
+      singInButton.textContent = 'Sing in';
+      singInButton.removeEventListener('click', singOutHandler);
+      singInButton.addEventListener('click', singInHandler);
+
+      document.querySelector('.user .user-name').textContent = '';
+      ui.start('#firebaseui-auth-container', uiConfig);
+    }
+  });
+};
+
+const singInHandler = function() {
+  const authCont = document.querySelector('.modal-ui-wrapper');
+  authCont.style.display = '';
+  ui.start('#firebaseui-auth-container', uiConfig);
+};
+
+const singOutHandler = function() {
+  firebase.auth().signOut();
+};
+// even vor sing in button
+const singInButton = document.querySelector('.user .sing-in');
 
 // ref main elements
 const libraryContainer = document.querySelector('.library-main');
