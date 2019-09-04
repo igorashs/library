@@ -99,14 +99,13 @@ body {
   border-bottom: 2px solid rgba(0, 0, 0, 0.4);
 }
 .library-panel .element .title {
-  font-size: 32px;
+  font-size: 26px;
   text-align: center;
   padding: 0.5rem 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
 }
 .library-panel .element .data {
-  padding: 0 0.5rem;
-  margin: 1rem 0;
+  margin: 1rem 0.5rem;
   display: flex;
   flex-direction: column;
 }
@@ -117,6 +116,7 @@ body {
 }
 .library-panel .element .data .button {
   align-self: center;
+  margin: 8px;
   border: 0;
   border-radius: 5px;
   color: rgba(255, 255, 255, 0.5);
