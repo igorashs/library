@@ -790,7 +790,6 @@ function ModalQueryFactory(modalType) {
     if (modalType === 'storage-selection') {
       // storage handlers
       const localButtonHandler = () => {
-        isLocal = true;
         loadAll();
         renderLibrary(myLibrary);
         document
@@ -798,6 +797,7 @@ function ModalQueryFactory(modalType) {
           .classList.remove('display-none');
         singInButton.addEventListener('click', singInHandler);
         initAuthState('none');
+        isLocal = true;
         this.off();
       };
       const cloudButtonHandler = () => {
@@ -958,6 +958,11 @@ function renderLibrary(library) {
   }
 }
 
+function clearLibrary(library) {
+  library.forEach((bookContainer) => bookContainer.container.element.remove());
+  library = [];
+}
+
 function saveDataToCloudStorage() {
   let user = firebase.auth().currentUser;
   let dataJson = JSON.stringify({ myLibrary, uniqueId });
@@ -973,6 +978,7 @@ function loadDataFromCloudStorage() {
 }
 
 function changeLibraryToDB(dbData) {
+  clearLibrary(myLibrary);
   if (dbData != null) {
     let userData = JSON.parse(dbData);
     myLibrary = userData.myLibrary;

@@ -46,24 +46,24 @@ body {
   margin-left: 20px;
 }
 /* user */
-.library-header .user {
+.user {
   margin-right: 20px;
   width: 360px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
-.library-header .user .user-name {
+.user .user-name {
   font-size: 20px;
   margin-right: 20px;
 }
-.library-header .user .user-photo {
+.user .user-photo {
   width: 50px;
   height: 50px;
   border-radius: 25px;
   margin-right: 20px;
 }
-.library-header .user .button {
+.user .button {
   border: 0;
   font-size: 22px;
   width: 100px;
@@ -72,13 +72,14 @@ body {
   border-radius: 5px;
   background-color: coral;
 }
-.library-header .user .button:hover,
-.library-header .user .button:focus {
+.user .button:hover,
+.user .button:focus {
   background-color: rgb(214, 105, 66);
 }
 
 /* panel */
 .library-panel {
+  overflow: auto;
   padding-top: 40px;
   grid-area: panel;
   width: 360px;
