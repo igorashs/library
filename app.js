@@ -114,7 +114,7 @@ function BookContainer(book) {
   // handlers
   // call confirmation modal
   const queryConfirmationHandler = (e) => {
-    confirmationSelectionModal.confirm(this);
+    confirmationSelectionStorageModal.confirm(this);
   };
 
   const bookEditHandler = (e) => {
@@ -655,7 +655,8 @@ ModalBookFactory.prototype.changeAllToValid = function() {
 function ModalQueryFactory(modalType) {
   if (
     modalType === 'storage-selection' ||
-    modalType === 'confirmation-selection'
+    modalType === 'confirmation-selection-storage' ||
+    modalType === 'confirmation-delete-library'
   ) {
     // create wrapper element
     this.wrapper = document.createElement('div');
@@ -674,9 +675,11 @@ function ModalQueryFactory(modalType) {
     this.title = document.createElement('h2');
 
     if (modalType === 'storage-selection') {
-      this.title.textContent = 'Where to Save Your Data?';
-    } else {
-      this.title.textContent = 'Do you Want to Remove Data?';
+      this.title.textContent = 'Where to Save Your Data ?';
+    } else if (modalType === 'confirmation-selection-storage') {
+      this.title.textContent = 'Do you Want to Remove this Book ?';
+    } else if (modalType === 'confirmation-delete-library') {
+      this.title.textContent = 'Do you Want to Remove this Library ?';
     }
     // add title element
     this.modalTitle.appendChild(this.title);
@@ -723,7 +726,10 @@ function ModalQueryFactory(modalType) {
 
       this.content.appendChild(this.storageCloudElement);
       this.content.appendChild(this.storageLocalElement);
-    } else {
+    } else if (
+      modalType === 'confirmation-selection-storage' ||
+      modalType === 'confirmation-delete-library'
+    ) {
       // create no selection element
       this.noSelectionElement = document.createElement('div');
       this.noSelectionElement.classList.add('element');
@@ -764,7 +770,14 @@ function ModalQueryFactory(modalType) {
     this.wrapper.appendChild(this.element);
 
     // events
-    if (modalType === 'confirmation-selection') {
+    if (modalType === 'confirmation-delete-library') {
+      // this.yesButtonHandler = null;
+      this.noButtonHandler = () => this.off();
+
+      this.noSelectionButton.addEventListener('click', this.noButtonHandler);
+    }
+
+    if (modalType === 'confirmation-selection-storage') {
       // handlers for confirmation
       const yesButtonHandler = () => {
         if (this.bookContainerToRemove) {
@@ -927,15 +940,20 @@ const buttonAddBook = document.querySelector('.add-button');
 let addModal = new ModalBookFactory('add');
 let editModal = new ModalBookFactory('edit');
 let storageSelectionModal = new ModalQueryFactory('storage-selection');
-let confirmationSelectionModal = new ModalQueryFactory(
-  'confirmation-selection'
+let confirmationSelectionStorageModal = new ModalQueryFactory(
+  'confirmation-selection-storage'
+);
+let confirmationDeleteLibraryModal = new ModalQueryFactory(
+  'confirmation-delete-library'
 );
 
-// append to the end of body
+// append to the end of the body
 addModal.insertInBody();
 editModal.insertInBody();
 storageSelectionModal.insertInBody();
-confirmationSelectionModal.insertInBody();
+confirmationSelectionStorageModal.insertInBody();
+
+confirmationDeleteLibraryModal.insertInBody();
 
 // make remember this selection
 // my library data
@@ -1087,23 +1105,34 @@ libraryPanel
 libraryPanel
   .querySelector('.data .delete-btn-local')
   .addEventListener('click', (e) => {
-    if (isLocal) {
-      clearLibrary(myLibrary);
-      myLibrary = [];
-      uniqueId = 0;
-    }
-    deleteDataFromLocalStorage('library');
-    deleteDataFromLocalStorage('uniqueId');
+    confirmationDeleteLibraryModal.on();
+    confirmationDeleteLibraryModal.yesSelectionButton.onclick = () => {
+      if (isLocal) {
+        clearLibrary(myLibrary);
+        myLibrary = [];
+        uniqueId = 0;
+        updateInformation();
+      }
+      deleteDataFromLocalStorage('library');
+      deleteDataFromLocalStorage('uniqueId');
+      confirmationDeleteLibraryModal.off();
+    };
   });
+
 libraryPanel
   .querySelector('.data .delete-btn-cloud')
   .addEventListener('click', (e) => {
-    if (!isLocal) {
-      clearLibrary(myLibrary);
-      myLibrary = [];
-      uniqueId = 0;
+    confirmationDeleteLibraryModal.on();
+    confirmationDeleteLibraryModal.yesSelectionButton.onclick = () => {
+      if (!isLocal) {
+        clearLibrary(myLibrary);
+        myLibrary = [];
+        uniqueId = 0;
+        updateInformation();
+      }
+      deleteDataFromCloudStorage();
+      confirmationDeleteLibraryModal.off();
     }
-    deleteDataFromCloudStorage();
   });
 libraryPanel
   .querySelector('.element.rewrite .rewrite-btn-local')

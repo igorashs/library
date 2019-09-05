@@ -272,7 +272,8 @@ body {
 .modal-add-wrapper,
 .modal-edit-wrapper,
 .modal-storage-selection-wrapper,
-.modal-confirmation-selection-wrapper {
+.modal-confirmation-selection-storage-wrapper,
+.modal-confirmation-delete-library-wrapper {
   z-index: 1;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.75);
@@ -289,7 +290,8 @@ body {
 .modal-add,
 .modal-edit,
 .modal-storage-selection,
-.modal-confirmation-selection {
+.modal-confirmation-selection-storage,
+.modal-confirmation-delete-library {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 6fr 1fr;
@@ -302,7 +304,8 @@ body {
 .modal-add .modal-title,
 .modal-edit .modal-title,
 .modal-storage-selection .modal-title,
-.modal-confirmation-selection .modal-title {
+.modal-confirmation-selection-storage .modal-title,
+.modal-confirmation-delete-library .modal-title {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -327,7 +330,8 @@ body {
 .modal-add .content,
 .modal-edit .content,
 .modal-storage-selection .content,
-.modal-confirmation-selection .content {
+.modal-confirmation-selection-storage .content,
+.modal-confirmation-delete-library .content {
   display: grid;
   padding: 20px 0;
   grid-template-columns: 1fr;
@@ -337,7 +341,8 @@ body {
 .modal-add .content .element,
 .modal-edit .content .element,
 .modal-storage-selection .content .element,
-.modal-confirmation-selection .content .element {
+.modal-confirmation-selection-storage .content .element,
+.modal-confirmation-delete-library .content .element {
   position: relative;
   width: 80%;
   justify-self: center;
@@ -428,19 +433,23 @@ body {
   background-color: rgba(0, 0, 0, 1);
 }
 .modal-storage-selection,
-.modal-confirmation-selection {
+.modal-confirmation-selection-storage,
+.modal-confirmation-delete-library {
   grid-template-rows: 1fr 7fr;
 }
 .modal-storage-selection .content,
-.modal-confirmation-selection .content {
+.modal-confirmation-selection-storage .content,
+.modal-confirmation-delete-library .content {
   grid-template-columns: 1fr 1fr;
 }
 .modal-storage-selection .content .element,
-.modal-confirmation-selection .content .element {
+.modal-confirmation-selection-storage .content .element,
+.modal-confirmation-delete-library .content .element {
   width: auto;
 }
 .modal-storage-selection .content .element .selection button,
-.modal-confirmation-selection .content .element .selection button {
+.modal-confirmation-selection-storage .content .element .selection button,
+.modal-confirmation-delete-library .content .element .selection button {
   width: 200px;
   height: 180px;
   color: #fff;
@@ -450,7 +459,8 @@ body {
   transition: 1s;
 }
 .modal-storage-selection .content .element .selection button:hover,
-.modal-confirmation-selection .content .element .selection button:hover {
+.modal-confirmation-selection-storage .content .element .selection button:hover,
+.modal-confirmation-delete-library .content .element .selection button:hover {
   transform: scale(1.05);
   background-color: rgba(0, 0, 0, 0.4);
 }
