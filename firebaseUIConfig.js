@@ -2,6 +2,7 @@ let uiConfig = {
   callbacks: {
     // Called when the user has been successfully signed in.
     signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+      document.querySelector('.modal-ui-wrapper').style.display = 'none';
       return false;
     }
   },

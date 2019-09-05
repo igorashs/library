@@ -790,20 +790,19 @@ function ModalQueryFactory(modalType) {
     if (modalType === 'storage-selection') {
       // storage handlers
       const localButtonHandler = () => {
-        loadAll();
-        renderLibrary(myLibrary);
-        document
-          .querySelector('.library-container')
-          .classList.remove('display-none');
-        singInButton.addEventListener('click', singInHandler);
-        initAuthState('none');
+        // loadAll();
+        // renderLibrary(myLibrary);
+        // document
+        //   .querySelector('.library-container')
+        //   .classList.remove('display-none');
+        // singInButton.addEventListener('click', singInHandler);
         isLocal = true;
+        initAuthState();
         this.off();
       };
       const cloudButtonHandler = () => {
         isLocal = false;
         initAuthState();
-
         this.off();
       };
 
@@ -819,52 +818,98 @@ ModalQueryFactory.prototype.off = ModalBookFactory.prototype.off;
 ModalQueryFactory.prototype.insertInBody =
   ModalBookFactory.prototype.insertInBody;
 
-const initAuthState = function(displayVale = '') {
-  const authCont = document.querySelector('.modal-ui-wrapper');
-  authCont.style.display = displayVale;
+const initAuthState = function() {
+  const uiWrapper = document.querySelector('.modal-ui-wrapper');
+  const libContainer = document.querySelector('.library-container');
+
+  function displayUserInformation(user) {
+    document.querySelector('.user .user-name').textContent = user.displayName;
+    const userImg = document.querySelector('.user .user-photo');
+    userImg.setAttribute('src', user.photoURL);
+    userImg.classList.remove('display-none');
+  }
 
   firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      document.querySelector('.user .user-name').textContent = user.displayName;
-      const userImg = document.querySelector('.user .user-photo');
-      userImg.setAttribute('src', user.photoURL);
-      userImg.classList.remove('display-none');
-
-      document
-        .querySelector('.library-container')
-        .classList.remove('display-none');
-      authCont.style.display = 'none';
-
-      // load data after from db
+    // working on local
+    if (user && isLocal) {
+      changeButtonToSingOut();
+      displayUserInformation(user);
       database = firebase.database();
       loadAll();
+      // TODO add btns in panel
+      // TODO make loading modal
+      libContainer.classList.remove('display-none');
+    
+      // uiWrapper.style.display = 'none';
+    } 
+    if (!user && isLocal) {
+      changeButtonToSingIn();
+      loadAll();
+      // TODO remove btns from panel
+      // TODO make loading modal
+      libContainer.classList.remove('display-none');
 
-      // change state of button
-      singInButton.textContent = 'Sing Out';
-      singInButton.removeEventListener('click', singInHandler);
-      singInButton.addEventListener('click', singOutHandler);
-    } else {
-      // change state of button
-      singInButton.textContent = 'Sing in';
-      singInButton.removeEventListener('click', singOutHandler);
-      singInButton.addEventListener('click', singInHandler);
+      //   // uiWrapper.style.display = '';
+      //   switchLibToLocal();
+      
+      }
+      // working on cloud
+      if (user && !isLocal) {
+        changeButtonToSingOut();
+        displayUserInformation(user);
+        database = firebase.database();
+        loadAll();
 
-      document.querySelector('.user .user-photo').classList.add('display-none');
-      document.querySelector('.user .user-name').textContent = '';
-      ui.start('#firebaseui-auth-container', uiConfig);
-    }
+        libContainer.classList.remove('display-none');
+        // for first singIn
+        // uiWrapper.style.display = 'none';
+        console.log('help in cloud');
+      }
+
+      if (!user && !isLocal) {
+        console.log('singIN for cloud');
+        uiWrapper.style.display = '';
+        ui.start('#firebaseui-auth-container', uiConfig);
+      }
+    
   });
 };
 
 const singInHandler = function() {
-  const authCont = document.querySelector('.modal-ui-wrapper');
-  authCont.style.display = '';
+  const uiWrapper = document.querySelector('.modal-ui-wrapper');
+  uiWrapper.style.display = '';
+
+  uiConfig.callbacks.signInSuccessWithAuthResult = function(authResult, redUrl) {
+    isLocal = false;
+    uiWrapper.style.display = 'none';
+    return false;
+  }
   ui.start('#firebaseui-auth-container', uiConfig);
 };
 
 const singOutHandler = function() {
+  clearLibrary(myLibrary);
+  // TODO make loading modal
+  isLocal = true;
+  document.querySelector('.user .user-photo').classList.add('display-none');
+  document.querySelector('.user .user-name').textContent = '';
   firebase.auth().signOut();
 };
+
+const changeButtonToSingIn = function() {
+  // change state of button
+  singInButton.textContent = 'Sing in';
+  singInButton.removeEventListener('click', singOutHandler);
+  singInButton.addEventListener('click', singInHandler);
+};
+
+const changeButtonToSingOut = function() {
+  // change state of button
+  singInButton.textContent = 'Sing Out';
+  singInButton.removeEventListener('click', singInHandler);
+  singInButton.addEventListener('click', singOutHandler);
+};
+
 // even vor sing in button
 const singInButton = document.querySelector('.user .sing-in');
 
@@ -890,8 +935,8 @@ let myLibrary = [];
 let uniqueId = null;
 let database = null;
 
-// local storage data
-let isLocal = true;
+// is local storage data
+let isLocal = null;
 // load data from cloud or local
 storageSelectionModal.on();
 
@@ -945,6 +990,7 @@ function loadAll() {
   if (isLocal) {
     myLibrary = getLibraryFromLocalStorage();
     uniqueId = getUniqueIdFromLocalStorage();
+    renderLibrary(myLibrary);
   } else {
     loadDataFromCloudStorage();
   }
