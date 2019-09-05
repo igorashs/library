@@ -829,6 +829,24 @@ const initAuthState = function() {
     userImg.classList.remove('display-none');
   }
 
+  function disableUserPanelButtons() {
+    libraryPanel.querySelector('.data .switch-btn').style.display = 'none';
+    libraryPanel.querySelector('.data .delete-btn-cloud').style.display =
+      'none';
+    libraryPanel.querySelector('.element.rewrite').style.display = 'none';
+  }
+  function enableUserPanelButtons(isLocal) {
+    const btn = libraryPanel.querySelector('.data .switch-btn');
+    if (isLocal) {
+      btn.textContent = 'Switch to Cloud';
+    } else {
+      btn.textContent = 'Switch to Local';
+    }
+    btn.style.display = '';
+    libraryPanel.querySelector('.data .delete-btn-cloud').style.display = '';
+    libraryPanel.querySelector('.element.rewrite').style.display = '';
+  }
+
   firebase.auth().onAuthStateChanged(function(user) {
     // working on local
     if (user && isLocal) {
@@ -839,6 +857,7 @@ const initAuthState = function() {
       // TODO add btns in panel
       // TODO make loading modal
       libContainer.classList.remove('display-none');
+      enableUserPanelButtons(true);
     }
     if (!user && isLocal) {
       changeButtonToSingIn();
@@ -846,6 +865,7 @@ const initAuthState = function() {
       // TODO remove btns from panel
       // TODO make loading modal
       libContainer.classList.remove('display-none');
+      disableUserPanelButtons();
     }
     // working on cloud
     if (user && !isLocal) {
@@ -855,6 +875,7 @@ const initAuthState = function() {
       loadAll();
 
       libContainer.classList.remove('display-none');
+      enableUserPanelButtons();
     }
 
     if (!user && !isLocal) {
@@ -907,6 +928,7 @@ const singInButton = document.querySelector('.user .sing-in');
 
 // ref main elements
 const libraryContainer = document.querySelector('.library-main');
+const libraryPanel = document.querySelector('.library-panel');
 const buttonAddBook = document.querySelector('.add-button');
 let addModal = new ModalBookFactory('add');
 let editModal = new ModalBookFactory('edit');
@@ -950,6 +972,11 @@ function loadDataFromLocalStorage(key) {
 function saveDataToLocalStorage(key, obj) {
   if (localStorage) {
     localStorage[key] = JSON.stringify(obj);
+  }
+}
+function deleteDataFromLocalStorage(key) {
+  if (localStorage) {
+    localStorage.removeItem(key);
   }
 }
 
@@ -1003,22 +1030,31 @@ function clearLibrary(library) {
 
 function saveDataToCloudStorage() {
   let user = firebase.auth().currentUser;
-  let dataJson = JSON.stringify({ myLibrary, uniqueId });
-  database.ref('users/' + user.uid).set(dataJson);
+  if (user) {
+    let dataJson = JSON.stringify({ myLibrary, uniqueId });
+    database.ref('users/' + user.uid).set(dataJson);
+  }
 }
 
 function loadDataFromCloudStorage() {
   let user = firebase.auth().currentUser;
-
-  database.ref('users/' + user.uid).once('value', (snap) => {
-    changeLibraryToDB(snap.val());
-  });
+  if (user) {
+    database.ref('users/' + user.uid).once('value', (snap) => {
+      changeLibraryToDB(snap.val());
+    });
+  }
+}
+function deleteDataFromCloudStorage() {
+  let user = firebase.auth().currentUser;
+  if (user) {
+    database.ref('users/' + user.uid).set('null');
+  }
 }
 
 function changeLibraryToDB(dbData) {
   clearLibrary(myLibrary);
-  if (dbData != null) {
-    let userData = JSON.parse(dbData);
+  let userData = JSON.parse(dbData);
+  if (dbData != null && userData) {
     myLibrary = userData.myLibrary;
     uniqueId = userData.uniqueId;
   } else {
@@ -1027,4 +1063,78 @@ function changeLibraryToDB(dbData) {
   }
   // need time
   renderLibrary(myLibrary);
+}
+
+// add events for panel BUTTONS
+libraryPanel
+  .querySelector('.data .switch-btn')
+  .addEventListener('click', (e) => {
+    if (isLocal) {
+      isLocal = false;
+      clearLibrary(myLibrary);
+      e.currentTarget.textContent = 'Switch to Local';
+      // TODO loading modal
+      loadAll();
+    } else {
+      isLocal = true;
+      clearLibrary(myLibrary);
+      e.currentTarget.textContent = 'Switch to Cloud';
+      // TODO loading modal
+      loadAll();
+    }
+  });
+libraryPanel
+  .querySelector('.data .delete-btn-local')
+  .addEventListener('click', (e) => {
+    if (isLocal) {
+      clearLibrary(myLibrary);
+      myLibrary = [];
+      uniqueId = 0;
+    }
+    deleteDataFromLocalStorage('library');
+    deleteDataFromLocalStorage('uniqueId');
+  });
+libraryPanel
+  .querySelector('.data .delete-btn-cloud')
+  .addEventListener('click', (e) => {
+    if (!isLocal) {
+      clearLibrary(myLibrary);
+      myLibrary = [];
+      uniqueId = 0;
+    }
+    deleteDataFromCloudStorage();
+  });
+libraryPanel
+  .querySelector('.element.rewrite .rewrite-btn-local')
+  .addEventListener('click', (e) => {
+    loadDataFromCloudStorage();
+    rewriteInLocal();
+  });
+libraryPanel
+  .querySelector('.element.rewrite .rewrite-btn-cloud')
+  .addEventListener('click', (e) => {
+    clearLibrary(myLibrary);
+    myLibrary = getLibraryFromLocalStorage();
+    uniqueId = getUniqueIdFromLocalStorage();
+    rewriteInCloud();
+    renderLibrary(myLibrary);
+  });
+
+function rewriteInLocal() {
+  if (isLocal) {
+    saveAll();
+  } else {
+    isLocal = true;
+    saveAll();
+    isLocal = false;
+  }
+}
+function rewriteInCloud() {
+  if (!isLocal) {
+    saveAll();
+  } else {
+    isLocal = false;
+    saveAll();
+    isLocal = true;
+  }
 }
