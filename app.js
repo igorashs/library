@@ -1036,11 +1036,11 @@ function saveDataToCloudStorage() {
   }
 }
 
-function loadDataFromCloudStorage() {
+function loadDataFromCloudStorage(isRewrite) {
   let user = firebase.auth().currentUser;
   if (user) {
     database.ref('users/' + user.uid).once('value', (snap) => {
-      changeLibraryToDB(snap.val());
+      changeLibraryToDB(snap.val(), isRewrite);
     });
   }
 }
@@ -1051,7 +1051,7 @@ function deleteDataFromCloudStorage() {
   }
 }
 
-function changeLibraryToDB(dbData) {
+function changeLibraryToDB(dbData, isRewrite) {
   clearLibrary(myLibrary);
   let userData = JSON.parse(dbData);
   if (dbData != null && userData) {
@@ -1060,6 +1060,10 @@ function changeLibraryToDB(dbData) {
   } else {
     myLibrary = [];
     uniqueId = 0;
+  }
+
+  if (isRewrite) {
+    rewriteInLocal();
   }
   // need time
   renderLibrary(myLibrary);
@@ -1107,8 +1111,7 @@ libraryPanel
 libraryPanel
   .querySelector('.element.rewrite .rewrite-btn-local')
   .addEventListener('click', (e) => {
-    loadDataFromCloudStorage();
-    rewriteInLocal();
+    loadDataFromCloudStorage(true);
   });
 libraryPanel
   .querySelector('.element.rewrite .rewrite-btn-cloud')
