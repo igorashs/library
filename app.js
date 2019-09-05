@@ -1132,7 +1132,7 @@ libraryPanel
       }
       deleteDataFromCloudStorage();
       confirmationDeleteLibraryModal.off();
-    }
+    };
   });
 libraryPanel
   .querySelector('.element.rewrite .rewrite-btn-local')
@@ -1207,3 +1207,15 @@ function updateInformation() {
     panelCompletedPagesElement.textContent = count;
   }
 }
+
+document.querySelector('.response-menu').addEventListener('click', () => {
+  libraryPanel.classList.toggle('display-none');
+});
+
+window.addEventListener('resize', () => {
+  if (innerWidth <= 760) {
+    libraryPanel.classList.add('display-none');
+  } else {
+    libraryPanel.classList.remove('display-none');
+  }
+});

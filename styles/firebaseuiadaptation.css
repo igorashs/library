@@ -21,6 +21,7 @@
   height: 400px;
   border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 0 20px rgb(0, 105, 109);
   background-color: rgba(64, 64, 64, 0.8);
 }
 
