@@ -654,6 +654,20 @@ body {
   .modal-edit .content .element .title {
     font-size: 16px;
   }
+  .book-container {
+    transform: scale(0.8);
+    /* animation: appear-book 0s; */
+  }
+  .library-header {
+    z-index: 2;
+    background-color: #000;
+  }
+  .add-button {
+    transform: scale(0.4);
+  }
+  .add-button:hover {
+    transform: scale(0.8);
+  }
 }
 @media only screen and (max-width: 460px) {
   .modal-add,
