@@ -224,11 +224,13 @@ body {
 .book-container .content .title {
   font-size: 30px;
   text-align: center;
+  word-break: break-word;
 }
 .book-container .content .author {
   font-size: 16px;
   text-align: right;
   font-style: italic;
+  word-break: break-word;
 }
 .book-container .pages-controller {
   display: flex;
