@@ -839,39 +839,28 @@ const initAuthState = function() {
       // TODO add btns in panel
       // TODO make loading modal
       libContainer.classList.remove('display-none');
-    
-      // uiWrapper.style.display = 'none';
-    } 
+    }
     if (!user && isLocal) {
       changeButtonToSingIn();
       loadAll();
       // TODO remove btns from panel
       // TODO make loading modal
       libContainer.classList.remove('display-none');
+    }
+    // working on cloud
+    if (user && !isLocal) {
+      changeButtonToSingOut();
+      displayUserInformation(user);
+      database = firebase.database();
+      loadAll();
 
-      //   // uiWrapper.style.display = '';
-      //   switchLibToLocal();
-      
-      }
-      // working on cloud
-      if (user && !isLocal) {
-        changeButtonToSingOut();
-        displayUserInformation(user);
-        database = firebase.database();
-        loadAll();
+      libContainer.classList.remove('display-none');
+    }
 
-        libContainer.classList.remove('display-none');
-        // for first singIn
-        // uiWrapper.style.display = 'none';
-        console.log('help in cloud');
-      }
-
-      if (!user && !isLocal) {
-        console.log('singIN for cloud');
-        uiWrapper.style.display = '';
-        ui.start('#firebaseui-auth-container', uiConfig);
-      }
-    
+    if (!user && !isLocal) {
+      uiWrapper.style.display = '';
+      ui.start('#firebaseui-auth-container', uiConfig);
+    }
   });
 };
 
@@ -879,11 +868,14 @@ const singInHandler = function() {
   const uiWrapper = document.querySelector('.modal-ui-wrapper');
   uiWrapper.style.display = '';
 
-  uiConfig.callbacks.signInSuccessWithAuthResult = function(authResult, redUrl) {
+  uiConfig.callbacks.signInSuccessWithAuthResult = function(
+    authResult,
+    redUrl
+  ) {
     isLocal = false;
     uiWrapper.style.display = 'none';
     return false;
-  }
+  };
   ui.start('#firebaseui-auth-container', uiConfig);
 };
 
