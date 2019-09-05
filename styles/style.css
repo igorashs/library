@@ -164,7 +164,7 @@ body {
   justify-content: space-around;
   justify-items: center;
   grid-template-columns: repeat(4, 1fr);
-  grid-row-gap: 20px;
+  grid-row-gap: 40px;
   grid-auto-flow: row;
 }
 /* elements */
@@ -175,7 +175,7 @@ body {
   display: grid;
   justify-items: center;
   background-color: rgba(25, 88, 56, 0.3);
-  box-shadow: 0 0 0 4px rgba(60, 59, 60, 0.6);
+  box-shadow: 0 0 4px 10px rgba(60, 59, 60, 0.6);
   border-radius: 10px;
 }
 /* book */
