@@ -164,7 +164,7 @@ body {
   justify-content: space-around;
   justify-items: center;
   grid-template-columns: repeat(4, 1fr);
-  grid-row-gap: 20px;
+  grid-row-gap: 40px;
   grid-auto-flow: row;
 }
 /* elements */
@@ -175,7 +175,7 @@ body {
   display: grid;
   justify-items: center;
   background-color: rgba(25, 88, 56, 0.3);
-  box-shadow: 0 0 0 4px rgba(60, 59, 60, 0.6);
+  box-shadow: 0 0 4px 10px rgba(60, 59, 60, 0.6);
   border-radius: 10px;
 }
 /* book */
@@ -224,11 +224,13 @@ body {
 .book-container .content .title {
   font-size: 30px;
   text-align: center;
+  word-break: break-word;
 }
 .book-container .content .author {
   font-size: 16px;
   text-align: right;
   font-style: italic;
+  word-break: break-word;
 }
 .book-container .pages-controller {
   display: flex;
@@ -243,6 +245,10 @@ body {
   border: 0;
   width: 100%;
   border: 2px solid rgba(0, 0, 0, 0.3);
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .book-container .pages-controller .button.minus-gb {
   background-color: rgba(175, 58, 58, 0.8);
@@ -288,6 +294,10 @@ body {
   transform: scale(0.6);
   transition-duration: 1.5s;
   animation: appear 0.5s ease-in-out;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .add-button:hover {
   transform: scale(1);
@@ -400,6 +410,10 @@ body {
   position: absolute;
   bottom: 0;
   transition: 1s;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .modal-add .content .element .input:focus ~ .title,
 .modal-add .content .element .input:valid ~ .title,
@@ -615,7 +629,52 @@ body {
   .user .button {
     font-size: 18px;
   }
+
+  .modal-add,
+  .modal-edit,
+  .modal-storage-selection,
+  .modal-confirmation-selection-storage,
+  .modal-confirmation-delete-library {
+    width: 460px;
+  }
+  .modal-add .modal-title,
+  .modal-edit .modal-title,
+  .modal-storage-selection .modal-title,
+  .modal-confirmation-selection-storage .modal-title,
+  .modal-confirmation-delete-library .modal-title {
+    font-size: 24px;
+  }
+  .modal-add .options .button,
+  .modal-edit .options .button {
+    font-size: 20px;
+  }
+  .modal-add .content .element .input,
+  .modal-edit .content .element .input,
+  .modal-add .content .element .title,
+  .modal-edit .content .element .title {
+    font-size: 16px;
+  }
 }
+@media only screen and (max-width: 460px) {
+  .modal-add,
+  .modal-edit,
+  .modal-storage-selection,
+  .modal-confirmation-selection-storage,
+  .modal-confirmation-delete-library {
+    width: auto;
+  }
+  .modal-add .content .element .input,
+  .modal-edit .content .element .input,
+  .modal-add .content .element .title,
+  .modal-edit .content .element .title {
+    font-size: 14px;
+  }
+  .modal-add .content .element .input.check,
+  .modal-edit .content .element .input.check {
+    transform: scale(0.5), translateY(-20px);
+  }
+}
+
 /* firefox */
 input:required {
   box-shadow: none !important;

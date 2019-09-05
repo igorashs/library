@@ -129,6 +129,7 @@ function BookContainer(book) {
       if (book.completedPages === book.totalPages) {
         book.completed = true;
       }
+      toggleBookBgColor(book);
       this.updateContainerFor(book);
       saveAll();
     }
@@ -137,12 +138,14 @@ function BookContainer(book) {
     if (book.completedPages > 0) {
       book.completedPages--;
       book.completed = false;
+      toggleBookBgColor(book);
       this.updateContainerFor(book);
       saveAll();
     }
   };
   const bookCompleteHandler = (e) => {
     book.completed = true;
+    toggleBookBgColor(book);
     book.completedPages = book.totalPages;
     this.updateContainerFor(book);
     saveAll();
@@ -382,6 +385,7 @@ function ModalBookFactory(modalType) {
             newBookWrapper.element,
             libraryContainer.lastElementChild
           );
+          toggleBookBgColor(newBook);
           saveAll();
           this.clearAllInputs();
           this.off();
@@ -397,6 +401,9 @@ function ModalBookFactory(modalType) {
           book.totalPages = +this.bookTotalPagesInput.value;
           book.completedPages = +this.bookCompletedPagesInput.value;
           book.completed = this.bookCompleted.checked;
+
+          toggleBookBgColor(book);
+
           this.off();
           book.container.updateContainerFor(book);
           saveAll();
@@ -1033,6 +1040,7 @@ function renderLibrary(library) {
   if (library.length > 0) {
     library.forEach((b) => {
       addModal.renderBook(b);
+      toggleBookBgColor(b);
     });
   }
 }
@@ -1219,3 +1227,14 @@ window.addEventListener('resize', () => {
     libraryPanel.classList.remove('display-none');
   }
 });
+
+function toggleBookBgColor(book) {
+  if (book.completed) {
+    book.container.element.style = 'background-color: rgba(61, 50, 146, 0.3);';
+    book.container.buttonPagesComplete.style =
+      'background-color: rgb(36, 14, 49);';
+  } else {
+    book.container.element.style = '';
+    book.container.buttonPagesComplete.style = '';
+  }
+}
