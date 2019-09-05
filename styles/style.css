@@ -87,6 +87,7 @@ body {
   right: 0;
   bottom: 0;
   top: 100px;
+  z-index: 10;
 }
 .library-panel .element {
   width: 80%;
@@ -662,6 +663,11 @@ body {
   }
   .add-button:hover {
     transform: scale(0.8);
+  }
+  body,
+  html {
+    overflow: auto !important;
+    max-height: 100% !important;
   }
 }
 @media only screen and (max-width: 460px) {
