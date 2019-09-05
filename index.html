@@ -8,8 +8,14 @@
       name="Description"
       content="Library, online library book, book cards"
     />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.css"
+    />
     <link rel="stylesheet" href="/styles/reset.css" />
     <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="stylesheet" href="/styles/firebaseuiadaptation.css" />
     <title>Library</title>
   </head>
   <body>
@@ -17,8 +23,9 @@
       <header class="library-header">
         <h1 class="title">Library</h1>
         <div class="user">
+          <img src="" alt="userPhoto" class="user-photo display-none" />
           <h3 class="user-name"></h3>
-          <button class="button">Login</button>
+          <button class="button sing-in">Sing In</button>
         </div>
       </header>
       <main class="library-main">
@@ -31,28 +38,55 @@
           <div class="data">
             <div class="info">
               <h3>Books</h3>
-              <span data-element="totalBooks">1</span>
+              <span id="total-books">0</span>
+            </div>
+            <div class="info">
+              <h3>Completed Books</h3>
+              <span id="completed-books">0</span>
             </div>
             <div class="info">
               <h3>Total Pages</h3>
-              <span data-element="totalPages">769</span>
+              <span id="total-pages">0</span>
             </div>
             <div class="info">
               <h3>Completed</h3>
-              <span data-element="completedPages">24</span>
+              <span id="completed-pages">0</span>
             </div>
           </div>
         </div>
         <div class="element">
-          <h2 class="title">Options</h2>
+          <h2 class="title">Storage Options</h2>
           <div class="data">
-            <button class="button">Delete Library</button>
+            <button class="button switch-btn">Switch to Local</button>
+            <button class="button delete-btn-cloud">Delete Cloud</button>
+            <button class="button delete-btn-local">Delete Local</button>
+          </div>
+        </div>
+        <div class="element rewrite">
+          <h2 class="title">Rewrite Options</h2>
+          <div class="data">
+            <button class="button rewrite-btn-local">Rewrite Local</button>
+            <button class="button rewrite-btn-cloud">Rewrite Cloud</button>
           </div>
         </div>
         <h2 id="creator">Made by Igorash</h2>
       </div>
     </div>
 
+    <div
+      id="firebaseui-auth-container"
+      class="modal-ui-wrapper"
+      style="display: none"
+    >
+      <div class="modal-title"><h2>Sing In</h2></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-database.js"></script>
+    <script src="firebaseInit.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.js"></script>
+    <script src="firebaseUIConfig.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
