@@ -790,12 +790,6 @@ function ModalQueryFactory(modalType) {
     if (modalType === 'storage-selection') {
       // storage handlers
       const localButtonHandler = () => {
-        // loadAll();
-        // renderLibrary(myLibrary);
-        // document
-        //   .querySelector('.library-container')
-        //   .classList.remove('display-none');
-        // singInButton.addEventListener('click', singInHandler);
         isLocal = true;
         initAuthState();
         this.off();
@@ -1004,12 +998,14 @@ function saveAll() {
   } else {
     saveDataToCloudStorage();
   }
+  updateInformation();
 }
 function loadAll() {
   if (isLocal) {
     myLibrary = getLibraryFromLocalStorage();
     uniqueId = getUniqueIdFromLocalStorage();
     renderLibrary(myLibrary);
+    updateInformation();
   } else {
     loadDataFromCloudStorage();
   }
@@ -1067,6 +1063,7 @@ function changeLibraryToDB(dbData, isRewrite) {
   }
   // need time
   renderLibrary(myLibrary);
+  updateInformation();
 }
 
 // add events for panel BUTTONS
@@ -1139,5 +1136,45 @@ function rewriteInCloud() {
     isLocal = false;
     saveAll();
     isLocal = true;
+  }
+}
+
+const panelTotalBooksElement = document.getElementById('total-books');
+const panelTotalPagesElement = document.getElementById('total-pages');
+const panelCompletedBooksElement = document.getElementById('completed-books');
+const panelCompletedPagesElement = document.getElementById('completed-pages');
+function updateInformation() {
+  panelTotalBooksElement.textContent = myLibrary.length;
+
+  if (myLibrary.length == 0) {
+    panelCompletedBooksElement.textContent = '0';
+  } else {
+    let count = 0;
+    myLibrary.forEach((b) => {
+      if (b.completed) count++;
+    });
+    panelCompletedBooksElement.textContent = count;
+  }
+
+  if (myLibrary.length == 0) {
+    panelTotalPagesElement.textContent = '0';
+  } else {
+    let count = 0;
+    myLibrary.forEach((b) => (count += b.totalPages));
+    if (JSON.stringify(count).length > 16) {
+      count = 'Too Many!';
+    }
+    panelTotalPagesElement.textContent = count;
+  }
+
+  if (myLibrary.length == 0) {
+    panelCompletedPagesElement.textContent = '0';
+  } else {
+    let count = 0;
+    myLibrary.forEach((b) => (count += b.completedPages));
+    if (JSON.stringify(count).length > 16) {
+      count = 'Too Many!';
+    }
+    panelCompletedPagesElement.textContent = count;
   }
 }
