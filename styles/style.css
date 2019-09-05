@@ -65,16 +65,16 @@ body {
 }
 .user .button {
   border: 0;
-  font-size: 22px;
+  font-size: 18px;
   width: 100px;
   color: #fff;
   height: 40px;
   border-radius: 5px;
-  background-color: coral;
+  background-color: rgb(202, 75, 29);
 }
 .user .button:hover,
 .user .button:focus {
-  background-color: rgb(214, 105, 66);
+  background-color: rgb(100, 23, 0);
 }
 
 /* panel */
@@ -117,17 +117,34 @@ body {
 .library-panel .element .data .button {
   align-self: center;
   margin: 8px;
-  border: 0;
+  border: 1px solid rgba(95, 90, 90, 0.5);
   border-radius: 5px;
-  color: rgba(255, 255, 255, 0.5);
-  background-color: rgba(175, 58, 58, 0.5);
+  color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(24, 104, 29, 0.8);
   width: 80%;
   height: 40px;
+}
+.delete-btn-cloud,
+.delete-btn-local {
+  background-color: rgba(180, 23, 17, 0.8) !important;
+}
+.delete-btn-cloud:hover,
+.delete-btn-local:hover {
+  background-color: rgb(199, 9, 5) !important;
+}
+.rewrite-btn-local,
+.rewrite-btn-cloud {
+  background-color: rgba(147, 163, 156, 0.8) !important;
+}
+
+.rewrite-btn-local:hover,
+.rewrite-btn-cloud:hover {
+  background-color: rgba(86, 110, 100, 0.8) !important;
 }
 .library-panel .element .data .button:hover,
 .library-panel .element .data .button:focus {
   color: rgb(255, 255, 255);
-  background-color: rgb(175, 58, 58);
+  background-color: rgba(24, 104, 29, 1);
 }
 #creator {
   width: 60%;
@@ -168,7 +185,10 @@ body {
 .book-container {
   grid-template-rows: 1fr 5fr 1.25fr 1fr;
   overflow: hidden;
+  transition-duration: 1s;
+  animation: appear-book 0.5s ease-in;
 }
+
 .book-container .options {
   box-sizing: border-box;
   display: flex;
@@ -262,11 +282,21 @@ body {
   justify-self: center;
   align-self: center;
   font-size: 260px;
+  transition-duration: 1.5s;
+}
+.add-button {
+  transform: scale(0.6);
+  transition-duration: 1.5s;
+  animation: appear 0.5s ease-in-out;
 }
 .add-button:hover {
-  transform: scale(1.05);
+  transform: scale(1);
   cursor: pointer;
   background-color: rgba(25, 88, 56, 0.5);
+}
+.add-button:hover .plus {
+  transform: rotate(90deg) scale(1.1);
+  color: rgb(99, 155, 133);
 }
 /* modal add */
 .modal-add-wrapper,
@@ -292,6 +322,8 @@ body {
 .modal-storage-selection,
 .modal-confirmation-selection-storage,
 .modal-confirmation-delete-library {
+  box-sizing: border-box;
+  box-shadow: 0 0 20px rgb(71, 3, 88);
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 6fr 1fr;
@@ -300,6 +332,7 @@ body {
   border-radius: 20px;
   overflow: hidden;
   background-color: rgba(64, 64, 64, 0.8);
+  animation: appear 0.5s ease-in-out;
 }
 .modal-add .modal-title,
 .modal-edit .modal-title,
@@ -309,9 +342,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
+  font-size: 30px;
   font-weight: bold;
-  background-color: darkgreen;
+  background-color: rgb(96, 52, 114);
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
 }
 .modal-add .options,
@@ -435,7 +468,13 @@ body {
 .modal-storage-selection,
 .modal-confirmation-selection-storage,
 .modal-confirmation-delete-library {
-  grid-template-rows: 1fr 7fr;
+  grid-template-rows: 2fr 7fr;
+}
+.modal-confirmation-delete-library {
+  box-shadow: 0 0 20px rgb(88, 3, 3);
+}
+.modal-confirmation-delete-library .modal-title {
+  background-color: rgb(114, 52, 52);
 }
 .modal-storage-selection .content,
 .modal-confirmation-selection-storage .content,
@@ -456,17 +495,56 @@ body {
   font-size: 32px;
   border: 1px solid rgb(92, 92, 92);
   background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   transition: 1s;
 }
+
 .modal-storage-selection .content .element .selection button:hover,
 .modal-confirmation-selection-storage .content .element .selection button:hover,
 .modal-confirmation-delete-library .content .element .selection button:hover {
   transform: scale(1.05);
   background-color: rgba(0, 0, 0, 0.4);
 }
+
+.modal-confirmation-delete-library
+  .content
+  .element:first-child
+  .selection
+  button:hover,
+.modal-confirmation-selection-storage
+  .content
+  .element:first-child
+  .selection
+  button:hover {
+  box-shadow: 0 0 10px rgba(6, 158, 75, 0.4);
+  background-color: rgba(6, 158, 75, 0.4);
+}
+.modal-confirmation-delete-library
+  .content
+  .element:last-child
+  .selection
+  button:hover,
+.modal-confirmation-selection-storage
+  .content
+  .element:last-child
+  .selection
+  button:hover {
+  box-shadow: 0 0 10px rgba(155, 21, 21, 0.4);
+  background-color: rgba(155, 21, 21, 0.4);
+}
+
+.modal-storage-selection .content .element:first-child .selection button:hover {
+  box-shadow: 0 0 10px rgba(6, 158, 145, 0.4);
+  background-color: rgba(6, 158, 145, 0.4);
+}
+.modal-storage-selection .content .element:last-child .selection button:hover {
+  box-shadow: 0 0 10px rgba(135, 21, 155, 0.4);
+  background-color: rgba(135, 21, 155, 0.4);
+}
+
 /* modal display (is flex: default) */
 .display-none {
-  display: none;
+  display: none !important;
 }
 .input-validated {
   border-bottom: 2px solid rgba(0, 255, 0, 0.6) !important;
@@ -494,6 +572,22 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+.response-menu {
+  grid-row-gap: 10px;
+  cursor: pointer;
+  display: none;
+  margin-left: 5px;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+  width: 60px;
+  height: 10px;
+  background-color: white;
+}
+
 /* phones */
 @media only screen and (max-width: 760px) {
   .library-container {
@@ -505,10 +599,44 @@ body {
     grid-template-columns: 1fr;
   }
   .library-panel {
+    background-color: rgba(66, 66, 66, 0.95);
+    left: 0;
+  }
+  .response-menu {
+    display: grid;
+  }
+  .user .user-photo {
     display: none;
+  }
+  .user .user-name {
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  .user .button {
+    font-size: 18px;
   }
 }
 /* firefox */
 input:required {
   box-shadow: none !important;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes appear-book {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
