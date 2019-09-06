@@ -1,4 +1,4 @@
-#Library (Firebase + LocalStorage)
+# Library (Firebase + LocalStorage)
 
 ## From The Odin Project's [curriculum](https://www.theodinproject.com/courses/javascript/lessons/library)
 
