@@ -1221,7 +1221,7 @@ document.querySelector('.response-menu').addEventListener('click', () => {
 });
 
 window.addEventListener('resize', () => {
-  if (innerWidth <= 760) {
+  if (innerWidth <= 960) {
     libraryPanel.classList.add('display-none');
   } else {
     libraryPanel.classList.remove('display-none');
