@@ -3,12 +3,18 @@
   src: url(../fonts/Poppins-Regular.ttf);
 }
 
+html {
+  height: 100%;
+  background: hidden;
+}
+
 html,
 body {
   font-family: poppins-regular;
   color: white;
 }
 body {
+  min-height: 100%;
   background: linear-gradient(rgba(32, 0, 32, 1), rgba(0, 0, 0, 1));
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -16,7 +22,7 @@ body {
 /* containers */
 .library-container {
   width: 100%;
-  height: 100vh;
+  min-height: 100%;
   display: grid;
   grid-template-areas:
     ' header header '
@@ -61,7 +67,7 @@ body {
 }
 .user .button {
   border: 0;
-  font-size: 18px;
+  font-size: 16px;
   width: 100px;
   color: #fff;
   height: 40px;
@@ -566,8 +572,9 @@ body {
 .validation-message {
   color: rgb(255, 111, 86) !important;
 }
+
 /* responsive  */
-@media only screen and (max-width: 1720px) {
+/* @media only screen and (max-width: 1720px) {
   .library-main {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -582,7 +589,7 @@ body {
   .library-main {
     grid-template-columns: 1fr;
   }
-}
+} */
 
 .response-menu {
   grid-row-gap: 10px;
@@ -594,28 +601,45 @@ body {
 .bar1,
 .bar2,
 .bar3 {
-  width: 60px;
-  height: 10px;
+  width: 40px;
+  height: 5px;
   background-color: white;
 }
 
 /* phones */
-@media only screen and (max-width: 760px) {
+@media only screen and (max-width: 960px) {
+  .library-header {
+    height: 50px;
+  }
+  .library-header .title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-left: 0px;
+    z-index: 2;
+    /* background-color: #000; */
+  }
   .library-container {
     grid-template-areas:
       ' header header '
       'main main';
   }
+  body {
+    background: none;
+    background-color: rgba(32, 0, 32, 1);
+  }
   .library-main {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
   .library-panel {
+    width: 300px;
     background-color: rgba(66, 66, 66, 0.95);
+    top: 50px;
     left: 0;
   }
   .response-menu {
     display: grid;
   }
+
   .user .user-photo {
     display: none;
   }
@@ -655,10 +679,6 @@ body {
     transform: scale(0.8);
     /* animation: appear-book 0s; */
   }
-  .library-header {
-    z-index: 2;
-    background-color: #000;
-  }
   .add-button {
     transform: scale(0.4);
   }
@@ -666,6 +686,7 @@ body {
     transform: scale(0.8);
   }
 }
+/* 
 @media only screen and (max-width: 460px) {
   .modal-add,
   .modal-edit,
@@ -693,7 +714,7 @@ body {
     font-size: 10px;
     margin-right: 4px;
   }
-}
+} */
 
 /* firefox */
 input:required {
