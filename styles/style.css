@@ -3,12 +3,18 @@
   src: url(../fonts/Poppins-Regular.ttf);
 }
 
+html {
+  height: 100%;
+  background: hidden;
+}
+
 html,
 body {
   font-family: poppins-regular;
   color: white;
 }
 body {
+  min-height: 100%;
   background: linear-gradient(rgba(32, 0, 32, 1), rgba(0, 0, 0, 1));
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -16,7 +22,7 @@ body {
 /* containers */
 .library-container {
   width: 100%;
-  height: 100vh;
+  min-height: 100%;
   display: grid;
   grid-template-areas:
     ' header header '
@@ -39,7 +45,7 @@ body {
 .library-header .title {
   font-size: 42px;
   font-weight: bold;
-  margin-left: 20px;
+  margin-left: 20px !important;
 }
 /* user */
 .user {
@@ -61,7 +67,7 @@ body {
 }
 .user .button {
   border: 0;
-  font-size: 18px;
+  font-size: 16px;
   width: 100px;
   color: #fff;
   height: 40px;
@@ -311,7 +317,7 @@ body {
 .modal-storage-selection-wrapper,
 .modal-confirmation-selection-storage-wrapper,
 .modal-confirmation-delete-library-wrapper {
-  z-index: 1;
+  z-index: 20;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.75);
   display: flex;
@@ -566,23 +572,6 @@ body {
 .validation-message {
   color: rgb(255, 111, 86) !important;
 }
-/* responsive  */
-@media only screen and (max-width: 1720px) {
-  .library-main {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media only screen and (max-width: 1366px) {
-  .library-main {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media only screen and (max-width: 1090px) {
-  .library-main {
-    grid-template-columns: 1fr;
-  }
-}
 
 .response-menu {
   grid-row-gap: 10px;
@@ -594,23 +583,60 @@ body {
 .bar1,
 .bar2,
 .bar3 {
-  width: 60px;
-  height: 10px;
+  width: 40px;
+  height: 5px;
   background-color: white;
 }
 
+@media only screen and (max-width: 1800px) {
+  .library-main {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media only screen and (max-width: 1460px) {
+  .library-main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (max-width: 1160px) {
+  .library-main {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
 /* phones */
-@media only screen and (max-width: 760px) {
+@media only screen and (max-width: 960px) {
+  .library-header {
+    height: 50px;
+    z-index: 11;
+    background: #000;
+    justify-content: stretch;
+    justify-content: space-around;
+  }
+  .library-header .title {
+    font-size: 32px;
+    font-weight: bold;
+    justify-self: center;
+    margin: 0;
+  }
   .library-container {
     grid-template-areas:
-      ' header header '
+      'header header '
       'main main';
   }
+  body {
+    background: none;
+    background-color: rgba(32, 0, 32, 1);
+  }
   .library-main {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
   .library-panel {
+    width: 300px;
     background-color: rgba(66, 66, 66, 0.95);
+    top: 50px;
     left: 0;
   }
   .response-menu {
@@ -632,14 +658,22 @@ body {
   .modal-storage-selection,
   .modal-confirmation-selection-storage,
   .modal-confirmation-delete-library {
-    width: 460px;
+    width: 400px;
   }
+  .modal-storage-selection .content .element .selection button,
+  .modal-confirmation-selection-storage .content .element .selection button,
+  .modal-confirmation-delete-library .content .element .selection button {
+    font-size: 20px;
+    width: 120px;
+    height: 120px;
+  }
+
   .modal-add .modal-title,
   .modal-edit .modal-title,
   .modal-storage-selection .modal-title,
   .modal-confirmation-selection-storage .modal-title,
   .modal-confirmation-delete-library .modal-title {
-    font-size: 24px;
+    font-size: 20px;
   }
   .modal-add .options .button,
   .modal-edit .options .button {
@@ -651,47 +685,110 @@ body {
   .modal-edit .content .element .title {
     font-size: 16px;
   }
-  .book-container {
-    transform: scale(0.8);
-    /* animation: appear-book 0s; */
-  }
-  .library-header {
-    z-index: 2;
-    background-color: #000;
-  }
+  .book-container,
   .add-button {
-    transform: scale(0.4);
+    width: 220px;
+    height: 300px;
   }
-  .add-button:hover {
-    transform: scale(0.8);
+  .book-container .options .button {
+    font-size: 16px;
+  }
+  .book-container .content .title {
+    font-size: 18px;
+  }
+  .book-container .content .author {
+    font-size: 12px;
+  }
+  .book-container .content {
+    margin: 10px;
+  }
+  .book-container .pages-count {
+    font-size: 14px;
+  }
+  .book-container .pages-controller .button {
+    font-size: 14px;
+  }
+
+  .modal-add,
+  .modal-edit {
+    overflow: auto;
+  }
+  .modal-add .content .element .input,
+  .modal-edit .content .element .input {
+    font-size: 14px;
+  }
+  .modal-add .content .element .title,
+  .modal-edit .content .element .title {
+    font-size: 14px;
+  }
+  .modal-add .content .element .input:focus ~ .title,
+  .modal-add .content .element .input:valid ~ .title,
+  .modal-edit .content .element .input:focus ~ .title,
+  .modal-edit .content .element .input:valid ~ .title {
+    display: none;
   }
 }
-@media only screen and (max-width: 460px) {
+
+@media only screen and (max-width: 600px) {
+  .library-main {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
   .modal-add,
   .modal-edit,
   .modal-storage-selection,
   .modal-confirmation-selection-storage,
   .modal-confirmation-delete-library {
-    width: auto;
+    height: 300px;
+  }
+  .modal-storage-selection .content .element .selection button,
+  .modal-confirmation-selection-storage .content .element .selection button,
+  .modal-confirmation-delete-library .content .element .selection button {
+    font-size: 20px;
+    width: 120px;
+    height: 120px;
+  }
+
+  .modal-add,
+  .modal-edit {
+    height: 400px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .user .user-name {
+    font-size: 12px;
+    text-align: right;
+  }
+  .user .button {
+    width: 40px;
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-height: 560px) {
+  .modal-add,
+  .modal-edit {
+    width: 80vw;
+    overflow: auto;
   }
   .modal-add .content .element .input,
-  .modal-edit .content .element .input,
+  .modal-edit .content .element .input {
+    font-size: 14px;
+  }
   .modal-add .content .element .title,
   .modal-edit .content .element .title {
     font-size: 14px;
   }
-  .modal-add .content .element .input.check,
-  .modal-edit .content .element .input.check {
-    transform: scale(0.5), translateY(-20px);
+  .modal-add .content .element .input:focus ~ .title,
+  .modal-add .content .element .input:valid ~ .title,
+  .modal-edit .content .element .input:focus ~ .title,
+  .modal-edit .content .element .input:valid ~ .title {
+    display: none;
   }
 
-  .user .button {
-    width: 40px;
-    font-size: 8px;
-  }
-  .user .user-name {
-    font-size: 10px;
-    margin-right: 4px;
+  .modal-add .content .element .input.check,
+  .modal-edit .content .element .input.check {
+    transform: scale(0.5) translateY(45px);
   }
 }
 
