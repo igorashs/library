@@ -1,18 +1,36 @@
 'use strict';
-function Book(
-  title = 'Unknown',
-  author = 'Unknown',
-  totalPages = 0,
-  completedPages = 0,
-  completed = false
-) {
-  this.id = ++uniqueId;
-  this.title = title;
-  this.author = author;
-  this.totalPages = totalPages;
-  this.completedPages = completedPages;
-  this.completed = completed;
-  this.container = null;
+// function Book(
+//   title = 'Unknown',
+//   author = 'Unknown',
+//   totalPages = 0,
+//   completedPages = 0,
+//   completed = false
+// ) {
+//   this.id = ++uniqueId;
+//   this.title = title;
+//   this.author = author;
+//   this.totalPages = totalPages;
+//   this.completedPages = completedPages;
+//   this.completed = completed;
+//   this.container = null;
+// }
+
+class Book {
+  constructor(
+    title = 'Unknown',
+    author = 'Unknown',
+    totalPages = 0,
+    completedPages = 0,
+    completed = false
+  ) {
+    this.id = ++uniqueId;
+    this.title = title;
+    this.author = author;
+    this.totalPages = totalPages;
+    this.completedPages = completedPages;
+    this.completed = completed;
+    this.container = null;
+  }
 }
 
 function BookContainer(book) {
