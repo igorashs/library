@@ -943,14 +943,14 @@ const singOutHandler = function() {
 
 const changeButtonToSingIn = function() {
   // change state of button
-  singInButton.textContent = 'Sing in';
+  singInButton.textContent = 'Sign in';
   singInButton.removeEventListener('click', singOutHandler);
   singInButton.addEventListener('click', singInHandler);
 };
 
 const changeButtonToSingOut = function() {
   // change state of button
-  singInButton.textContent = 'Sing Out';
+  singInButton.textContent = 'Sign Out';
   singInButton.removeEventListener('click', singInHandler);
   singInButton.addEventListener('click', singOutHandler);
 };
